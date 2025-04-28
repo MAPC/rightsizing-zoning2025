@@ -499,13 +499,13 @@ def zoning_merge(zoning_gdf, parcels_gdf):
         print(len(idx) == len(clean_join))
         # cut that table to just the LOC ID and the ZO Code, confirm pd
         par_zon_xwalk = clean_join[['LOC_ID','ZO_CODE']]
-        # take the zoning input and get rid of the geometry so we can do non-spatial joins
-        zoning_table = pd.DataFrame(zoning_gdf.drop(columns= 'geometry')) #confirm geom column name
         # join the zone code onto the parcels, double check the join
         parcels_zone_rec = pd.merge(parcels_gdf, par_zon_xwalk, left_on= 'LOC_ID', right_on= "LOC_ID", how = "left")
         print("Zone Code succesfully joined?")
         print(len(parcels_zone_rec['LOC_ID']) == len(clean_join))
         print(parcels_zone_rec.info())
+        # take the zoning input and get rid of the geometry so we can do non-spatial joins
+        zoning_table = pd.DataFrame(zoning_gdf.drop(columns= 'geometry'))
         # join the rest of the zoning table back to the parcels
         par_zon_join_fixed = pd.merge(parcels_zone_rec, zoning_table, left_on= 'ZO_CODE', right_on= 'ZO_CODE', how = "inner")
         print("Zones assigned to Parcels by Largest Share")
@@ -514,9 +514,6 @@ def zoning_merge(zoning_gdf, parcels_gdf):
     else : 
         print("Parcels Sucessfully Overlayed")
         return par_zon_join
-        
-
-
 
 
 
