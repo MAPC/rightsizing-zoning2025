@@ -232,13 +232,23 @@ def get_landuse_data(muni):
 
     #file_name = lpd_prefix + muni + lpd_suffix
     muni_lpd_path = os.path.join(mapc_lpd_folder, file_name)
-    mapc_lpd = pd.read_csv(muni_lpd_path)  
+    mapc_lpd = pd.read_csv(muni_lpd_path) 
+
+    # lidar dataset: just MMC communities, needs a height field
+    # how do I de-dupe the LOD IDs?
+    #ldr_sub = lidar_bld[['LOC_ID','CITY', 'flat_roof', 'geometry']]
+    #ldr_town = ldr_sub[ldr_sub['CITY'] == muni]
+    #ldr_town['bld_area'] = ldr_town.area()
 
     #merge land parcel database with state muni parcels
     #only keep the loc_id from state parcel database because we only want the MAPC lpd fields
     muni_lpd_preprocess = muni_state_parcels[['LOC_ID', 'geometry']].merge(mapc_lpd, 
                                                                            on='LOC_ID', 
                                                                            how='inner')
+    
+    # muni_bld_preprocess = muni_lpd_preprocess.merge(lidar_bld,
+    #                                                 on = 'LOC_ID',
+    #                                                 how = 'inner')
     
     muni_lpd_preprocess = muni_lpd_preprocess.to_crs(mass_mainland_crs)
 
@@ -461,11 +471,12 @@ def get_zoning_data(muni):
 
 def condo_conversion(luc, units):
     '''
-    takes condo parcels (102 and 998) and based on imputed units 
+    takes condo parcels (102 and 998) and mainly residential mixed use (013) 
+    and based on imputed units 
     converts them to 104, 105, 111 or 112
 
     ''' 
-    if luc == "102" or luc == "998": 
+    if luc == "102" or luc == "998" or luc == '013': 
         if units == 2:
             return "104"
         elif units == 3:
@@ -502,7 +513,8 @@ def zoning_merge(zoning_gdf, parcels_gdf):
         # join the zone code onto the parcels, double check the join
         parcels_zone_rec = pd.merge(parcels_gdf, par_zon_xwalk, left_on= 'LOC_ID', right_on= "LOC_ID", how = "left")
         print("Zone Code succesfully joined?")
-        print(len(parcels_zone_rec['LOC_ID']) == len(clean_join))
+        print(len(set(parcels_zone_rec['ZO_CODE'] == NA)))
+        print(len(parcels_zone_rec['LOC_ID']) == len(parcels_gdf))
         print(parcels_zone_rec.info())
         # take the zoning input and get rid of the geometry so we can do non-spatial joins
         zoning_table = pd.DataFrame(zoning_gdf.drop(columns= 'geometry'))
@@ -516,7 +528,12 @@ def zoning_merge(zoning_gdf, parcels_gdf):
         return par_zon_join
 
 
+def gdb_write(gdf, gdb, layer_name):
+    from shapely import MultiPolygon
+    gdf["geometry"] = [MultiPolygon([feature]) if isinstance(feature, Polygon) 
+        else feature for feature in gdf["geometry"]]
 
+    gdf.to_file(gdb, layer = layer_name, driver = 'OpenFileGDB')
 
 
 

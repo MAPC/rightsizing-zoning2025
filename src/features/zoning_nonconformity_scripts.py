@@ -26,55 +26,114 @@ def run_zoning_nonconformity(town_name):
 
     muni_parcels = get_landuse_data(town_name)
 
+    # Calculate necessary fields 
+    muni_parcels['DUA'] = muni_parcels[units]/(muni_parcels['LOT_SIZE_GIS']/43560)
+    muni_parcels['LPU'] = (muni_parcels['LOT_SIZE_GIS']/43560)/muni_parcels[units]
+
+    ## will soon join in key fields from LIDAR analysis
+        # Height
+        # Floors (if sloped roof subtract 0.5 from floors?)
+        # Gross Floor Area? 
+
     #get muni boundary + buffer
     #muni_gdf = ma_towns.loc[ma_towns['TOWN'].str.casefold() == town_name.casefold()].to_crs(mass_mainland_crs)
     #muni_gdf_w_buffer = buffer_gdf(muni_gdf, 800)
-
-
-    #### CRITERIA 1: Basic Conformity ####
 
     ## PREPROCESSING ## 
 
     #create the zoning layer
     res_zoning = get_zoning_data(town_name)
 
-    muni_w_zoning = muni_parcels.sjoin(res_zoning, how = "inner")
+    muni_w_zoning = zoning_merge(zoning_gdf= res_zoning,
+                                 parcels_gdf= muni_parcels)
+    
+    # building foot print geometry
+    bld_footprint = ldr_bld[ldr_bld['CITY'] == town_name]
 
 
+
+    # TO WRITE: Lot Size Unit Check
+
+
+    #### CRITERIA 1: Parcel Size ####
+
+    # Min Lot Size
+    # Percent Lot Coverage
+    # Land Area Per Unit
 
     ## RUN INDICATOR SCORING ## 
 
-    land_use_criteria = muni_w_zoning
+    parcel_size_criteria = muni_w_zoning
 
-    # units
-    def label_units (row):
-        if row[units] > row['MAXDU']: #original max_du
-            return 1
+    # min lot size
+    def label_lotsize (row):
+        if row['LOT_SIZE'] > row['MINLOTSIZE']: #original min_lot_area. All in SF. Do i need to change to LOTSIZE GIS ? 
+            return 0
         else:
+            return 1
+        
+    parcel_size_criteria['ls_conf'] =  muni_w_zoning.apply(lambda row: 
+                                                     label_lotsize(row), 
+                                                     axis=1) #its a row
+    
+    # pct lot coverage
+    # calculate the percent of the parcer covered by the building structures
+    parcel_size_criteria = calculate_overlap(layer_1= parcel_size_criteria,
+                                                        layer_2 = bld_footprint,
+                                                        how = "percent",
+                                                        new_field_name = 'par_lot_cov')
+    # return 1 if there is more building than the regulated percent lot coverage allows
+    def label_lotcov (row):
+        if row['par_lot_cov_pct'] > row['PCTLOTCOV']:
+            return 1
+        else: 
             return 0
         
-    land_use_criteria['du_conf'] = land_use_criteria.apply(lambda row: 
-                                                     label_units(row), 
-                                                     axis=1) #its a row
+    parcel_size_criteria['lc_conf'] = parcel_size_criteria.apply(lambda row:
+                                                                 label_lotcov(row),
+                                                                 axis = 1)
+
+    
+    # parcel size criteria scoring
+    parcel_size_criteria = get_criteria_score(criteria_table = parcel_size_criteria,
+                                              weights = lu_weights,
+                                              criteria_name = 'pcl_size')
+
+     #### CRITERIA 2: Building Shape ####
+
+    blg_shape_criteria = parcel_size_criteria
+
+    # Allowed Residetnial Use
+    # Height/Floors (Including sloped roofs)
+    # Gross Floor Area
 
     # allowed uses
     luc_res_type = {
-                'Single Residence' : {'101': True},
-                'Multi-Residence District' : {'101' : True, 
-                                       '104': True},
-                'Business District' : {'013': True},
-                'Mixed-Use' : {'105': True,
-                                 '111': True,
-                                 '112': True,
-                                 '013': True}
+                'Single Family' : {'101': True},
+                'Two Family' : {'101' : True, 
+                                '104': True},
+                'Three Family' : {'101' : True, 
+                                '104': True,
+                                '105' : True},
+                'Four to Eight Units' : {'101' : True, 
+                                '104': True,
+                                '105' : True,
+                                '111': True,
+                                '013': True},
+                'More than Eight Units' : {'101' : True, 
+                                '104': True,
+                                '105' : True,
+                                '111': True,
+                                '112': True,
+                                '013': True}
                                  }
     
     # converts the condominiums to a land use code that resembles the allowed use
-    land_use_criteria['luc_test'] = land_use_criteria.apply(lambda row:condo_conversion(luc = row[luc_adjusted],
+    blg_shape_criteria['luc_test'] = blg_shape_criteria.apply(lambda row:condo_conversion(luc = row[luc_adjusted],
                                                                                          units = row[units]),
                                                                                          axis = 1)
     
-    print(land_use_criteria['luc_test'][1])
+    #print(blg_shape_criteria['luc_test'][1])
 
     def lu_dict_test (res_type, luc) :
         if luc not in  luc_res_type[res_type].keys():
@@ -84,29 +143,87 @@ def run_zoning_nonconformity(town_name):
         else:
             return 1 
 
-    land_use_criteria['lu_conf'] = land_use_criteria.apply(lambda row: 
+    blg_shape_criteria['lu_conf'] = blg_shape_criteria.apply(lambda row: 
                                                        lu_dict_test(res_type= row['ZO_AldUse'], #original: zo_use_type
                                                                     luc = row['luc_test']), 
                                                                     axis = 1)
     
-    # min lot size
-    def label_lotsize (row):
-        if row['LOT_SIZE'] > row['MINLOTSIZE']: #original min_lot_area. All in SF. Do i need to change to LOTSIZE GIS ? 
-            return 0
-        else:
+    # Gross Floor Area
+    def label_gfa (row):
+        if row['BLG_AREA'] > row['MAXGFA']:
             return 1
+        else: 
+            return 0
         
-    land_use_criteria['ls_conf'] =  muni_w_zoning.apply(lambda row: 
-                                                     label_lotsize(row), 
-                                                     axis=1) #its a row
+    blg_shape_criteria['lc_conf'] = blg_shape_criteria.apply(lambda row:
+                                                                 label_gfa(row),
+                                                                 axis = 1)
     
+    def label_height (row):
+        if row['height'] > row['MAXHEIGHT']:
+            return 1
+        else: 
+            return 0
+        
+    blg_shape_criteria['ht_conf'] = blg_shape_criteria.apply(lambda row:
+                                                                 label_height(row),
+                                                                 axis = 1)
+    
+    ## Criteria Scoring ## 
+    
+    blg_shape_criteria = get_criteria_score(criteria_table = blg_shape_criteria,
+                                              weights = lu_weights,
+                                              criteria_name = 'blg_shpe')
+    
+
+    
+     #### CRITERIA 3: Residential Density ####
+
+    density_criteria = blg_shape_criteria
+    # Total Dwelling Units
+    # Dwelling Units per Acre
+    # FAR
+
+    ## Indicator Scoring ##
+    # units
+    def label_units (row):
+        if row[units] > row['MAXDU']: #original max_du
+            return 1
+        else:
+            return 0
+        
+    density_criteria['du_conf'] = density_criteria.apply(lambda row: 
+                                                     label_units(row), 
+                                                     axis=1) #its a row
+
+    # dua
+    def label_dua (row):
+        if row['DUA'] > row['MAXDUA']: 
+            return 1
+        else:
+            return 0
+        
+    density_criteria['dua_conf'] = density_criteria.apply(lambda row: 
+                                                     label_dua(row), 
+                                                     axis=1)
+    
+    #FAR Confomrity
+    def label_far (row):
+        if row['MAXFAR'] > row['FAR']:
+            return 1
+        else: 
+            return 0
+    
+    density_criteria['far_conf'] = density_criteria.apply(lambda row:
+                                                                  label_far(row),
+                                                                  axis = 1)
+
     ## CRITERIA SCORING ## 
-    #### while we only have 3 indicators we're going to treat each of them as criteria and run the final score 
-    # land_use_criteria = get_criteria_score(criteria_table=land_use_criteria, 
-    #                                             weights=lu_weights,
-    #                                             criteria_name='conf_scr')
+    density_criteria = get_criteria_score(criteria_table=density_criteria, 
+                                                weights=lu_weights,
+                                                criteria_name='res_dnsy')
    
-    conformity_scores = get_final_score(final_suitability_table= land_use_criteria,
+    conformity_scores = get_final_score(final_suitability_table= density_criteria,
                                        weights= lu_weights,
                                         suitability_name = "conf"
                                        )

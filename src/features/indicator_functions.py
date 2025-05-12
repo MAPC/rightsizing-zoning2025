@@ -142,7 +142,8 @@ def calculate_overlap (layer_1,
     if how in ['area' , 'percent']:
 
         #only keep parts of layer 1 that intersects with layer 2
-        intersection_layer = layer_1.overlay(layer_2, how='intersection', keep_geom_type=False)
+        #ZI Change: keep geom = True
+        intersection_layer = layer_1.overlay(layer_2, how='intersection', keep_geom_type=True)
         
         #get area of overlap for the area of intersection
         intersection_layer[new_field_name + '_sqm'] = intersection_layer['geometry'].area  
