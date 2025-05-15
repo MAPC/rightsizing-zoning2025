@@ -28,8 +28,9 @@ far = 'FAR'
 lu_description = 'L3_Description_M'
 
 lidar_path = r'K:\DataServices\Projects\Current_Projects\Climate_Change\MVP_MMC_CoolRoofs_MVP\Data\Analysis_Data\Data_Cool_Roofs\2_Output\MMC_Cool_Roofs.shp'
-lidar_bld = gpd.read_file(lidar_path)
-ldr_bld = lidar_bld.rename(columns= {'LOC_ID':'LOC_ID_bld'})
+ldr_bld = gpd.read_file(lidar_path)
+ldr_bld = ldr_bld.rename(columns= {'LOC_ID':'LOC_ID_bld'})
+ldr_bld = ldr_bld.dissolve(by = 'LOC_ID_bld')
 
 # need to move these
 
@@ -42,7 +43,7 @@ boston_parcels = gpd.read_file(boston_parcels_fp)
 
 #excluded land 
 excluded_land_gdb = os.path.join(projects_dir, "Housing\\Section_3A\\Analytical_Toolbox\\Project_Files\\3A_atlas_maps\\Default.gdb")
-excluded_land = gpd.read_file(excluded_land_gdb, layer='MAPC_ExcludedCombined_bytown_2')
+#excluded_land = gpd.read_file(excluded_land_gdb, layer='MAPC_ExcludedCombined_bytown_2')
 
 # Zoning
 zoning_gdb = os.path.join(datasets_dir, r"Zoning and Land Use\Town_Zoning\ZoningData\zoning_gdb.gdb")

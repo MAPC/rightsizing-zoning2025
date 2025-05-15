@@ -30,6 +30,10 @@ def run_zoning_nonconformity(town_name):
     muni_parcels['DUA'] = muni_parcels[units]/(muni_parcels['LOT_SIZE_GIS']/43560)
     muni_parcels['LPU'] = (muni_parcels['LOT_SIZE_GIS']/43560)/muni_parcels[units]
 
+    #stop gap for analysis
+    muni_parcels['floors'] = -99
+    muni_parcels['height'] = -99
+
     ## will soon join in key fields from LIDAR analysis
         # Height
         # Floors (if sloped roof subtract 0.5 from floors?)
@@ -84,19 +88,30 @@ def run_zoning_nonconformity(town_name):
                                                         new_field_name = 'par_lot_cov')
     # return 1 if there is more building than the regulated percent lot coverage allows
     def label_lotcov (row):
-        if row['par_lot_cov_pct'] > row['PCTLOTCOV']:
+        if row['par_lot_cov_pct']*100 > row['PCTLOTCOV']:
             return 1
         else: 
             return 0
+         
         
     parcel_size_criteria['lc_conf'] = parcel_size_criteria.apply(lambda row:
                                                                  label_lotcov(row),
                                                                  axis = 1)
 
-    
+    # Land area Per dwelling unit
+    def label_lapdu (row):
+        if row['LPU']< row['LApDU']:
+          return 1
+        else:
+            return 0                     
+
+    parcel_size_criteria['ld_conf'] = parcel_size_criteria.apply(lambda row:
+                                                                 label_lapdu(row),
+                                                                 axis = 1)
+
     # parcel size criteria scoring
     parcel_size_criteria = get_criteria_score(criteria_table = parcel_size_criteria,
-                                              weights = lu_weights,
+                                              weights = c1_weights,
                                               criteria_name = 'pcl_size')
 
      #### CRITERIA 2: Building Shape ####
@@ -136,7 +151,11 @@ def run_zoning_nonconformity(town_name):
     #print(blg_shape_criteria['luc_test'][1])
 
     def lu_dict_test (res_type, luc) :
-        if luc not in  luc_res_type[res_type].keys():
+        if res_type == 'No Residential Uses Allowed' and (luc.startswith("1") or luc == "013") :
+            return 1 
+        elif res_type == 'No Residential Uses Allowed' :
+            return 0
+        elif luc not in  luc_res_type[res_type].keys():
             return 1
         elif luc_res_type[res_type][luc] == True:
             return 0
@@ -150,12 +169,12 @@ def run_zoning_nonconformity(town_name):
     
     # Gross Floor Area
     def label_gfa (row):
-        if row['BLG_AREA'] > row['MAXGFA']:
+        if row['BLD_AREA'] > row['MAX_GFA']:
             return 1
         else: 
             return 0
         
-    blg_shape_criteria['lc_conf'] = blg_shape_criteria.apply(lambda row:
+    blg_shape_criteria['gfa_conf'] = blg_shape_criteria.apply(lambda row:
                                                                  label_gfa(row),
                                                                  axis = 1)
     
@@ -172,7 +191,7 @@ def run_zoning_nonconformity(town_name):
     ## Criteria Scoring ## 
     
     blg_shape_criteria = get_criteria_score(criteria_table = blg_shape_criteria,
-                                              weights = lu_weights,
+                                              weights = c2_weights,
                                               criteria_name = 'blg_shpe')
     
 
@@ -198,7 +217,7 @@ def run_zoning_nonconformity(town_name):
 
     # dua
     def label_dua (row):
-        if row['DUA'] > row['MAXDUA']: 
+        if row['DUA'] > row['DUpAC']: 
             return 1
         else:
             return 0
@@ -220,11 +239,13 @@ def run_zoning_nonconformity(town_name):
 
     ## CRITERIA SCORING ## 
     density_criteria = get_criteria_score(criteria_table=density_criteria, 
-                                                weights=lu_weights,
+                                                weights=c3_weights,
                                                 criteria_name='res_dnsy')
    
     conformity_scores = get_final_score(final_suitability_table= density_criteria,
-                                       weights= lu_weights,
+                                       weights= cr_weights,
                                         suitability_name = "conf"
                                        )
     return conformity_scores
+
+#def run_zoning_district_scoring():

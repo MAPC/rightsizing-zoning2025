@@ -464,6 +464,7 @@ def get_zoning_data(muni):
     #original Newton table
     #reg_table_fp = os.path.join(zoning_project_dir, "zoning-regs-by_right.csv")
     reg_table = pd.read_csv(reg_table_fp)
+    reg_table['PCTLOTCOV'] = pd.to_numeric(reg_table['PCTLOTCOV'].str.strip('%'))
 
     zoning_reg_table = pd.merge(zoning, reg_table, left_on= 'zo_code', right_on= "ZO_CODE", how = "inner")
 
@@ -513,13 +514,18 @@ def zoning_merge(zoning_gdf, parcels_gdf):
         # join the zone code onto the parcels, double check the join
         parcels_zone_rec = pd.merge(parcels_gdf, par_zon_xwalk, left_on= 'LOC_ID', right_on= "LOC_ID", how = "left")
         print("Zone Code succesfully joined?")
-        print(len(set(parcels_zone_rec['ZO_CODE'] == NA)))
+        print(len(set(parcels_zone_rec['ZO_CODE'].isna())))
         print(len(parcels_zone_rec['LOC_ID']) == len(parcels_gdf))
+        print("Parcels with the Zoning Code")
         print(parcels_zone_rec.info())
         # take the zoning input and get rid of the geometry so we can do non-spatial joins
-        zoning_table = pd.DataFrame(zoning_gdf.drop(columns= 'geometry'))
+        zoning_table = pd.DataFrame(zoning_gdf.drop(columns= ['geometry', 'Shape_Length', 'Shape_Area', 'EDITDATE']))
+        zoning_table = zoning_table.drop_duplicates()
         # join the rest of the zoning table back to the parcels
         par_zon_join_fixed = pd.merge(parcels_zone_rec, zoning_table, left_on= 'ZO_CODE', right_on= 'ZO_CODE', how = "inner")
+        print("Parcels with Zoning Table Joined")
+        print(par_zon_join_fixed.info())
+        print(len(par_zon_join_fixed))
         print("Zones assigned to Parcels by Largest Share")
         return par_zon_join_fixed
 
@@ -529,15 +535,8 @@ def zoning_merge(zoning_gdf, parcels_gdf):
 
 
 def gdb_write(gdf, gdb, layer_name):
-    from shapely import MultiPolygon
-    gdf["geometry"] = [MultiPolygon([feature]) if isinstance(feature, Polygon) 
-        else feature for feature in gdf["geometry"]]
+     from shapely import MultiPolygon
+     gdf["geometry"] = [MultiPolygon([feature]) if isinstance(feature, Polygon) 
+         else feature for feature in gdf["geometry"]]
 
-    gdf.to_file(gdb, layer = layer_name, driver = 'OpenFileGDB')
-
-
-
-
-
-
-
+     gdf.to_file(gdb, layer = layer_name, driver = 'OpenFileGDB')
