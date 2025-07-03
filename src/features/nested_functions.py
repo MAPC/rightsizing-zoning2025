@@ -170,8 +170,8 @@ def get_landuse_data(muni):
     output = state detailed parcel layer, merged with mapc land parcel database
     '''
 
-    from src.data.make_dataset import mapc_lpd_folder, boston_parcels, mass_mainland_crs    
-    project_dir = r'C:\Users\RBowers\Desktop\temp_muni'
+    from src.data.make_dataset import mapc_lpd_folder, mass_mainland_crs    
+    project_dir = r'C:\Users\ZIacovino\Desktop\temp_muni'
 
     def get_most_updated_state_assessors_data(muni):
 
@@ -182,6 +182,8 @@ def get_landuse_data(muni):
         
         if muni == 'Boston':
             #get shapefile from boston's open data portal and download
+            boston_parcels_fp = os.path.join(projects_dir, r"PDAs_PPAs\I90_PPA_PDA\Data\boston_parcels\Parcels_(2024)\Parcels_(2024).shp")
+            boston_parcels = gpd.read_file(boston_parcels_fp)
             #change in make_dataset.py
 
             parcel_layer = boston_parcels.copy()
@@ -440,7 +442,7 @@ def get_heat_score(heat_index_fp, muni_gdf):
 
     return muni_blocks_heat
 
-def get_zoning_data(muni):
+def get_zoning_data(muni, type = 'base'):
     '''
     input = muni name
     process = load zoning shapefile
@@ -460,7 +462,15 @@ def get_zoning_data(muni):
 
 
     # regulation table (exported 4/10)
-    reg_table_fp = os.path.join(zoning_project_dir, "zoning-atlas-mmc.csv")
+    if type == 'base':
+        reg_table_fp = os.path.join(zoning_project_dir, "zoning-atlas-mmc.csv")
+
+    elif type == 'overlay':
+        reg_table_fp = os.path.join(zoning_project_dir, "zoning-atlas-overlay.csv")
+    
+    else:
+        return print("invalid zoning type, please enter 'base' or 'overlay'")
+
     #original Newton table
     #reg_table_fp = os.path.join(zoning_project_dir, "zoning-regs-by_right.csv")
     reg_table = pd.read_csv(reg_table_fp)
@@ -477,7 +487,7 @@ def condo_conversion(luc, units):
     converts them to 104, 105, 111 or 112
 
     ''' 
-    if luc == "102" or luc == "998" or luc == '013': 
+    if luc == "102" or luc == "998" or luc == '013' or pd.isna(luc) or luc == "" or luc == None: 
         if units == 2:
             return "104"
         elif units == 3:
@@ -513,18 +523,19 @@ def zoning_merge(zoning_gdf, parcels_gdf):
         par_zon_xwalk = clean_join[['LOC_ID','ZO_CODE']]
         # join the zone code onto the parcels, double check the join
         parcels_zone_rec = pd.merge(parcels_gdf, par_zon_xwalk, left_on= 'LOC_ID', right_on= "LOC_ID", how = "left")
-        print("Zone Code succesfully joined?")
-        print(len(set(parcels_zone_rec['ZO_CODE'].isna())))
+        print("Any Parcels missing a Zone Code?")
+        print(parcels_zone_rec[parcels_zone_rec['ZO_CODE'].isna()]['LOC_ID'])
+        print("Same number of parcels we started with?")
         print(len(parcels_zone_rec['LOC_ID']) == len(parcels_gdf))
-        print("Parcels with the Zoning Code")
-        print(parcels_zone_rec.info())
+        #print("Parcels with the Zoning Code")
+        #print(parcels_zone_rec.info())
         # take the zoning input and get rid of the geometry so we can do non-spatial joins
         zoning_table = pd.DataFrame(zoning_gdf.drop(columns= ['geometry', 'Shape_Length', 'Shape_Area', 'EDITDATE']))
         zoning_table = zoning_table.drop_duplicates()
         # join the rest of the zoning table back to the parcels
         par_zon_join_fixed = pd.merge(parcels_zone_rec, zoning_table, left_on= 'ZO_CODE', right_on= 'ZO_CODE', how = "inner")
         print("Parcels with Zoning Table Joined")
-        print(par_zon_join_fixed.info())
+        #print(par_zon_join_fixed.info())
         print(len(par_zon_join_fixed))
         print("Zones assigned to Parcels by Largest Share")
         return par_zon_join_fixed

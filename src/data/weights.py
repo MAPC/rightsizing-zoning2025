@@ -9,13 +9,14 @@ c2_weights = {
     'lu_conf' : 1,
     'gfa_conf': 1,
     'ht_conf' : 1,
-#    'fl_conf' : 1
+    'fl_conf' : 1,
+    'far_conf': 1
 }
 
 c3_weights = {
     'du_conf' : 1,
-    'dua_conf': 1,
-    'far_conf': 1
+    'dua_conf': 1
+    
 }
 
 cr_weights = {
