@@ -19,7 +19,7 @@ munis_fp = os.path.join(datasets_dir, "Boundaries\Spatial\MA_TOWNS.shp")
 #munis_fp = os.path.join(input_dir, 'TOWNSSURVEY_POLY.shp')
 munis=gpd.read_file(munis_fp)
 muni_field = 'TOWN'
-project_gdb = r'K:\DataServices\Projects\Current_Projects\Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\Rightsizing_Zoning.gdb'
+project_gdb = r'K:\DataServices\Projects\Current_Projects\Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\Rightsizing_Zoning_ndsm.gdb'
 #define variables
 
 
@@ -69,7 +69,6 @@ def create_las_dataset(town_name, las_folder):
         #then, use spatial join to identify intersection between muni boundary and tiles 
         intersecting = index.sjoin(muni_gdf, how='inner')
         intersecting_list =  intersecting['Tile_ID'].tolist()
-
         #create list of tiles
         las_list = []
 
@@ -77,7 +76,7 @@ def create_las_dataset(town_name, las_folder):
             for dirpath, dirnames, filenames in os.walk(las_folder):
                 for filename in filenames:
                     if item in filename: #ignores case
-                        if filename.endswith('.las'): #search for file type
+                        if filename.endswith('.las') : #search for file type
                             las_list.append(os.path.join(dirpath,filename))
 
         #finally, create las dataset based on list of indexed tiles
@@ -373,6 +372,7 @@ def run_building_height_process(gdb_path,
 
     #if condo or housing authority, overwrite (all are "primary structures")
     structures_w_parcels.loc[(structures_w_parcels['Min_LUC_Assign'] == '102') | #condos
+                            (structures_w_parcels['Min_LUC_Assign'] == '114') | #affordable housing
                             (structures_w_parcels['Min_LUC_Assign'] == '970') | #housing authorities
                             (structures_w_parcels['Min_LUC_Assign'] == '908'), #housing authority (Boston)
                             'primary_structure'] = 1
