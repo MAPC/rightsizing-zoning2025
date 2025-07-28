@@ -27,7 +27,8 @@ units = 'imputed_units'
 far = 'FAR'
 lu_description = 'L3_Description_M'
 
-lidar_path = os.path.join(projects_dir, 'Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\RightsizingZoning_2025.gdb')
+lidar_path = os.path.join(projects_dir, 'Neighborhood_Planning_and_Zoning\\Zoning_Projects\\Rightsizing_Zoning_2025\\RightsizingZoning_2025.gdb')
+#"K:\DataServices\Projects\Current_Projects\Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\RightsizingZoning_2025.gdb"
 lidar_layer_name = '_00_mmc_enriched_structures_1'
 ldr_bld = gpd.read_file(lidar_path, layer= lidar_layer_name)
 ldr_bld = ldr_bld.rename(columns= {'LOC_ID':'LOC_ID_bld'})

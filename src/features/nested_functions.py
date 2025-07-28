@@ -504,6 +504,10 @@ def zoning_merge(zoning_gdf, parcels_gdf):
 
     # join the parcels to the zoning, potentially cutting up parcels in split zones
     par_zon_join = parcels_gdf.overlay(zoning_gdf, how = "intersection", keep_geom_type = True)
+    print("Parcel Rows")
+    print(len(parcels_gdf['LOC_ID']))
+    print("Unique LOC_IDS")
+    print(len(set(parcels_gdf['LOC_ID'])))
 
     if len(par_zon_join['LOC_ID']) >  len(set(par_zon_join['LOC_ID'])):
 
@@ -524,19 +528,19 @@ def zoning_merge(zoning_gdf, parcels_gdf):
         # join the zone code onto the parcels, double check the join
         parcels_zone_rec = pd.merge(parcels_gdf, par_zon_xwalk, left_on= 'LOC_ID', right_on= "LOC_ID", how = "left")
         print("Any Parcels missing a Zone Code?")
-        print(parcels_zone_rec[parcels_zone_rec['ZO_CODE'].isna()]['LOC_ID'])
+        print(len(parcels_zone_rec[parcels_zone_rec['ZO_CODE'].isna()]['LOC_ID']))
         print("Same number of parcels we started with?")
-        print(len(parcels_zone_rec['LOC_ID']) == len(parcels_gdf))
+        print(set(parcels_zone_rec['LOC_ID']) == set(parcels_gdf['LOC_ID']))
         #print("Parcels with the Zoning Code")
         #print(parcels_zone_rec.info())
         # take the zoning input and get rid of the geometry so we can do non-spatial joins
         zoning_table = pd.DataFrame(zoning_gdf.drop(columns= ['geometry', 'Shape_Length', 'Shape_Area', 'EDITDATE']))
         zoning_table = zoning_table.drop_duplicates()
         # join the rest of the zoning table back to the parcels
-        par_zon_join_fixed = pd.merge(parcels_zone_rec, zoning_table, left_on= 'ZO_CODE', right_on= 'ZO_CODE', how = "inner")
+        par_zon_join_fixed = pd.merge(parcels_zone_rec, zoning_table, left_on= 'ZO_CODE', right_on= 'ZO_CODE', how = "left")
         print("Parcels with Zoning Table Joined")
         #print(par_zon_join_fixed.info())
-        print(len(par_zon_join_fixed))
+        print(len(set(par_zon_join_fixed['LOC_ID'])))
         print("Zones assigned to Parcels by Largest Share")
         return par_zon_join_fixed
 
@@ -551,3 +555,51 @@ def gdb_write(gdf, gdb, layer_name):
          else feature for feature in gdf["geometry"]]
 
      gdf.to_file(gdb, layer = layer_name, driver = 'OpenFileGDB')
+
+
+def structure_merge(roofprints_gdf, parcels_gdf):
+
+    #Roofprints filtered to primary structures
+    # print(len(roofprints_gdf['LOC_ID_bld']))
+    # print(len(set(roofprints_gdf['LOC_ID_bld'])))
+
+    # first step is consolidating multiple structure parcels to one value per LOC_ID
+    def structure_consolidation(field_name, minmaxsum):
+
+        if minmaxsum == 'max':
+            # table of the loc_if idex of the max value of group
+            idx = roofprints_gdf.fillna(999999).groupby('LOC_ID_bld')[field_name].idxmax().reset_index()
+            # print(idx.info)
+            #cuts the roofprints to the index of the max? 
+            max_structure_values = roofprints_gdf.loc[idx[field_name]][['LOC_ID_bld', field_name]]
+
+            return max_structure_values
+        if minmaxsum == 'max':
+            idx = roofprints_gdf.fillna(999999).groupby('LOC_ID_bld')[field_name].idxmin().reset_index()
+            # print(idx.info)
+            min_structure_values = roofprints_gdf.loc[idx[field_name]][['LOC_ID_bld', field_name]]
+            return min_structure_values
+        if minmaxsum == 'sum' :
+           idx = roofprints_gdf.fillna(999999).groupby('LOC_ID_bld')[field_name].sum().reset_index()
+           # print(idx.info)
+           sum_structure_values = idx[['LOC_ID_bld', field_name]] 
+           return sum_structure_values
+        else :
+            return print("please specificy max or min in minmax")
+        
+    floors = structure_consolidation('MEDIAN_stories', 'max')
+    #print(len(floors))
+    height = structure_consolidation('MEDIAN', 'max')
+    #print(len(height))
+    coverage = structure_consolidation('ftpt_area', 'sum')
+    #print(len(coverage))
+
+    full_table = pd.merge(pd.merge(floors, height, on = 'LOC_ID_bld', how =  'outer'), coverage, 
+                          on = 'LOC_ID_bld', how = 'outer')
+
+    parcels_gdf = parcels_gdf.merge(full_table, left_on = 'LOC_ID', right_on = 'LOC_ID_bld', how = 'outer')
+
+    return parcels_gdf
+    
+    
+
