@@ -51,6 +51,7 @@ excluded_land_gdb = os.path.join(projects_dir, "Housing\\Section_3A\\Analytical_
 # Zoning
 zoning_gdb = os.path.join(datasets_dir, r"Zoning and Land Use\Town_Zoning\ZoningData\zoning_gdb.gdb")
 zoning_layer = gpd.read_file(zoning_gdb, layer = 'mmc_zoning')
+zoning_overlay_layer = gpd.read_file(zoning_gdb, layer = 'mmc_overlays')
 
 # ## TRANSIT ACCESSIBILITY ##
 

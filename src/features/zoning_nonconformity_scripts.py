@@ -58,17 +58,23 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     ## PREPROCESSING ## 
 
     #create the zoning layer
-    res_zoning = get_zoning_data(town_name, zone_type)
+    res_zoning = get_zoning_data(town_name, type = zone_type)
 
     ## For Test Report
     og_zones = len(set(res_zoning['ZO_CODE']))
+    #print("Number of Zones")
+    #print(og_zones)
 
     muni_w_zoning = zoning_merge(zoning_gdf= res_zoning,
                                  parcels_gdf= muni_parcels)
     
     ## For Test Report
     zj_parcels = len(set(muni_w_zoning['LOC_ID']))
+    #print("Parcels with Zoning" )
+    #print(zj_parcels)
     no_zone_parcels = len(set(muni_w_zoning[muni_w_zoning['ZO_CODE'].isna()]['LOC_ID']))
+    #print("Parcels without Zoning")
+    #print(no_zone_parcels)
     
     # building foot print geometry
     bld_footprint = ldr_bld[ldr_bld['CITY'] == town_name]
@@ -174,7 +180,7 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     blg_shape_criteria['luc_test'] = blg_shape_criteria.apply(lambda row:condo_conversion(luc = row[luc_adjusted],
                                                                                          units = row[units]),
                                                                                          axis = 1)
-    print(blg_shape_criteria[blg_shape_criteria['luc_test'].isna()]['LOC_ID'])
+    #print(blg_shape_criteria[blg_shape_criteria['luc_test'].isna()]['LOC_ID'])
     #print(blg_shape_criteria['luc_test'][1])
 
     def lu_dict_test (LOC_ID, res_type, luc) :
@@ -183,7 +189,7 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
             return 1 
         elif res_type == 'No Residential Uses Allowed':
             return np.nan
-        elif luc not in  luc_res_type[res_type].keys():
+        elif luc not in luc_res_type[res_type].keys():
             return 1
         elif luc_res_type[res_type][luc] == True:
             return 0
@@ -327,3 +333,29 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
         return analysis_report
 
 #def run_zoning_district_scoring():
+def test_merge(town_name, zone_type):
+
+    muni_parcels = get_landuse_data(town_name)
+    ldr_bld['ftpt_area'] = ldr_bld.area
+    ldr_bld_join = ldr_bld[['LOC_ID_bld', 'MEDIAN', 'MEDIAN_stories', 'ftpt_area']]
+    #outer join for footprint so we don't lose parcels that don't have one? 
+    muni_parcels = structure_merge(ldr_bld_join, muni_parcels)
+    muni_parcels = muni_parcels[muni_parcels[units]> 2]
+
+    res_zoning = get_zoning_data(town_name, type = zone_type)
+    print(set(res_zoning['ZO_AldUse']))
+    muni_w_zoning = zoning_merge(zoning_gdf= res_zoning,
+                                 parcels_gdf= muni_parcels)
+    
+    print("LOCIDs of Parcels without Zoning")
+    print(set(muni_w_zoning[muni_w_zoning['ZO_CODE'].isna()]['LOC_ID']))
+    allowed_uses = set(muni_w_zoning['ZO_AldUse'])
+
+    print(allowed_uses)
+
+    return muni_w_zoning
+
+    # if len(allowed_uses == True )>0 :
+    #     print("Missing Allowed Use")
+    # else :
+    #     print ("Allowed Uses All Good")

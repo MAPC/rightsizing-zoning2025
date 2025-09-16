@@ -450,23 +450,26 @@ def get_zoning_data(muni, type = 'base'):
     output = gdf with zoning data and regulations
 
     '''
-    from src.data.make_dataset import zoning_layer    
+    from src.data.make_dataset import zoning_layer, zoning_overlay_layer    
     zoning_project_dir = r'C:\Users\ziacovino\OneDrive - Metropolitan Area Planning Council\Metro Mayors Housing Task Force\Phase 2 Scope of Work\Rightsizing Zoning Project\Data'
     
-
-
-    # shapefile needs some data updating work
-    zoning = zoning_layer[zoning_layer['muni'] == muni]
-    zoning = zoning.to_crs(mass_mainland_crs)
-    #zo_code = 'Zoning'
-
 
     # regulation table (exported 4/10)
     if type == 'base':
         reg_table_fp = os.path.join(zoning_project_dir, "zoning-atlas-mmc.csv")
+        # shapefile needs some data updating work
+        zoning = zoning_layer[zoning_layer['muni'] == muni]
+        zoning = zoning.to_crs(mass_mainland_crs)
+    #zo_code = 'Zoning'
+
 
     elif type == 'overlay':
+        print("importing overlay")
         reg_table_fp = os.path.join(zoning_project_dir, "zoning-atlas-overlay.csv")
+        # shapefile needs some data updating work
+        zoning = zoning_overlay_layer[zoning_overlay_layer['muni'] == muni]
+        print(zoning.head())
+        zoning = zoning.to_crs(mass_mainland_crs) 
     
     else:
         return print("invalid zoning type, please enter 'base' or 'overlay'")
@@ -474,10 +477,12 @@ def get_zoning_data(muni, type = 'base'):
     #original Newton table
     #reg_table_fp = os.path.join(zoning_project_dir, "zoning-regs-by_right.csv")
     reg_table = pd.read_csv(reg_table_fp)
+    reg_table = reg_table[reg_table['MUNI'] == muni]
+    
     reg_table['PCTLOTCOV'] = pd.to_numeric(reg_table['PCTLOTCOV'].str.strip('%'))
 
     zoning_reg_table = pd.merge(zoning, reg_table, left_on= 'zo_code', right_on= "ZO_CODE", how = "inner")
-
+    
     return zoning_reg_table
 
 def condo_conversion(luc, units):
@@ -504,10 +509,12 @@ def zoning_merge(zoning_gdf, parcels_gdf):
 
     # join the parcels to the zoning, potentially cutting up parcels in split zones
     par_zon_join = parcels_gdf.overlay(zoning_gdf, how = "intersection", keep_geom_type = True)
-    print("Parcel Rows")
-    print(len(parcels_gdf['LOC_ID']))
-    print("Unique LOC_IDS")
-    print(len(set(parcels_gdf['LOC_ID'])))
+    # print("Parcel Rows")
+    # print(len(parcels_gdf['LOC_ID']))
+    # print("Unique LOC_IDS")
+    # print(len(set(parcels_gdf['LOC_ID'])))
+    # print("Joined Parcel Length")
+    # print(len(par_zon_join['LOC_ID']))
 
     if len(par_zon_join['LOC_ID']) >  len(set(par_zon_join['LOC_ID'])):
 
