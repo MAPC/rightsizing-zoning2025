@@ -359,3 +359,52 @@ def test_merge(town_name, zone_type):
     #     print("Missing Allowed Use")
     # else :
     #     print ("Allowed Uses All Good")
+
+
+def analysis_outputs(town_name):
+
+    # base_zone_summary = readzonesummary
+    # overlay_zone_summary = readzonesummary
+    # parcel_summary = readparceloutputs
+    #1 Which Zoning Standards lead to the most non-conformity?
+    #analysis_1 = #normalize average non-conformity?
+
+    #2 Difference between base zoning and overlay
+    #analysis_2 = #overlay base and overlay, do math on scores base-overlay, average effect of overlay zoning on non-conformity
+
+
+    # By Right vs Special permit? ?
+
+    #3 Nonconformity Score (total and subcategories) correlation with year built 
+    #analysis_3 = df['A'].corr(df['B'])
+
+    #4 Nonconfomirty Score correlation (total and subcategories) with lot size
+    #analysis_4 = df['A'].corr(df['B'])
+
+    analysis_output = {
+        'Analysis Concept': {'Zoning Standard with most Nonconformity', 'Average Effect of Overlay Zoning', 'Correlation Score: Year Built', 'Correlation Score: Lot Size'},
+        'Overall Conformity': {},
+        'Lot Size': {},
+        'Building Shape': {},
+        'Unit Density': {}
+    }
+
+    analysis_output = pd.DataFrame(analysis_output)
+
+    return(analysis_output)
+
+def zone_comparisons():
+
+    '''
+    Are there any zones that are clearly copy-paste situations? how do their non-conformities compare?
+
+    '''
+
+    print("TBD")
+
+
+
+    
+
+
+
