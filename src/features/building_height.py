@@ -19,7 +19,10 @@ munis_fp = os.path.join(datasets_dir, "Boundaries\Spatial\MA_TOWNS.shp")
 #munis_fp = os.path.join(input_dir, 'TOWNSSURVEY_POLY.shp')
 munis=gpd.read_file(munis_fp)
 muni_field = 'TOWN'
-project_gdb = r'K:\DataServices\Projects\Current_Projects\Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\Rightsizing_Zoning_ndsm.gdb'
+
+project_gdb = r'\\Data-Sync\Public\DataServices\Projects\Current_Projects\Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\Rightsizing_Zoning_2025.gdb'
+ndsm_gdb = r'\\data-sync\public\DataServices\Projects\Current_Projects\Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\Rightsizing_Zoning_ndsm.gdb'
+
 #define variables
 
 
@@ -104,7 +107,7 @@ def create_ndsm_raster(town_name, las_dataset):
 
     ### DEFINE VARIABLES ###
 
-    env.workspace = project_gdb
+    env.workspace = ndsm_gdb
     #env.overwriteOutput = True
     arcpy.env.outputCoordinateSystem = arcpy.SpatialReference("NAD 1983 StatePlane Massachusetts FIPS 2001 (Meters)")
     
@@ -125,7 +128,7 @@ def create_ndsm_raster(town_name, las_dataset):
     #NDSM
     in_raster1 = out_dsm_raster
     in_raster2 = out_dtm_raster
-    out_ndsm_raster =  os.path.join(project_gdb, (town_name + '_ndsm_buildings'))
+    out_ndsm_raster =  os.path.join(ndsm_gdb, (town_name + '_ndsm_buildings'))
 
  
     ## DIGITAL TERRAIN MODEL (DTM) ##

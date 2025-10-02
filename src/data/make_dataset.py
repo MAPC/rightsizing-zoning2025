@@ -27,10 +27,13 @@ units = 'imputed_units'
 far = 'FAR'
 lu_description = 'L3_Description_M'
 
-lidar_path = r'K:\DataServices\Projects\Current_Projects\Climate_Change\MVP_MMC_CoolRoofs_MVP\Data\Analysis_Data\Data_Cool_Roofs\2_Output\MMC_Cool_Roofs.shp'
-ldr_bld = gpd.read_file(lidar_path)
+lidar_path = os.path.join(projects_dir, 'Neighborhood_Planning_and_Zoning\\Zoning_Projects\\Rightsizing_Zoning_2025\\RightsizingZoning_2025.gdb')
+#"K:\DataServices\Projects\Current_Projects\Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\RightsizingZoning_2025.gdb"
+lidar_layer_name = '_00_mmc_enriched_structures_1'
+ldr_bld = gpd.read_file(lidar_path, layer= lidar_layer_name)
 ldr_bld = ldr_bld.rename(columns= {'LOC_ID':'LOC_ID_bld'})
-ldr_bld = ldr_bld.dissolve(by = 'LOC_ID_bld')
+#Just the primary structure
+ldr_bld = ldr_bld[ldr_bld['primary_structure'] == 1]
 
 # need to move these
 
@@ -38,8 +41,8 @@ ma_towns_fp = os.path.join(projects_dir, r"PDAs_PPAs\I90_PPA_PDA\Data\town_bound
 ma_towns = gpd.read_file(ma_towns_fp)
 
 
-boston_parcels_fp = os.path.join(projects_dir, r"PDAs_PPAs\I90_PPA_PDA\Data\boston_parcels\Parcels_(2024)\Parcels_(2024).shp")
-boston_parcels = gpd.read_file(boston_parcels_fp)
+# boston_parcels_fp = os.path.join(projects_dir, r"PDAs_PPAs\I90_PPA_PDA\Data\boston_parcels\Parcels_(2024)\Parcels_(2024).shp")
+# boston_parcels = gpd.read_file(boston_parcels_fp)
 
 #excluded land 
 excluded_land_gdb = os.path.join(projects_dir, "Housing\\Section_3A\\Analytical_Toolbox\\Project_Files\\3A_atlas_maps\\Default.gdb")
@@ -48,6 +51,7 @@ excluded_land_gdb = os.path.join(projects_dir, "Housing\\Section_3A\\Analytical_
 # Zoning
 zoning_gdb = os.path.join(datasets_dir, r"Zoning and Land Use\Town_Zoning\ZoningData\zoning_gdb.gdb")
 zoning_layer = gpd.read_file(zoning_gdb, layer = 'mmc_zoning')
+zoning_overlay_layer = gpd.read_file(zoning_gdb, layer = 'mmc_overlays')
 
 # ## TRANSIT ACCESSIBILITY ##
 

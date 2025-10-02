@@ -547,3 +547,78 @@ def calculate_indicator_score(function:str,
                         new_field_name=new_field_name, 
                         inverse=inverse, 
                         nan_value=nan_value)
+    
+
+def conformity_tests(measure) :
+    '''
+    
+    measure should be the name of the measure field in the zoning database
+
+ 
+    if np.isnan(measure):
+        return None
+
+    # min lot size
+    def label_lotsize (row):
+            if row['LOT_SIZE'] > row['MINLOTSIZE']: #original min_lot_area. All in SF. Do i need to change to LOTSIZE GIS ? 
+                return 0
+            else:
+                return 1
+            
+    # pct lot coverage       
+    def label_lotcov (row):
+            if row['par_lot_cov_pct']*100 > row['PCTLOTCOV']:
+                return 1
+            else: 
+                return 0
+
+    # Land area Per dwelling unit        
+    def label_lapdu (row):
+            if row['LPU']< row['LApDU']:
+            return 1
+            else:
+                return 0
+
+    #Allowed Land Use       
+    def lu_dict_test (res_type, luc) :
+            if res_type == 'No Residential Uses Allowed' and (luc.startswith("1") or luc == "013") :
+                return 1 
+            elif res_type == 'No Residential Uses Allowed' or res_type == "nan":
+                return 0
+            elif luc not in  luc_res_type[res_type].keys():
+                return 1
+            elif luc == "nan":
+                return 0
+            elif luc_res_type[res_type][luc] == True:
+                return 0
+            else:
+                return 1
+
+    #max gross floor area       
+    def label_gfa (row):
+            if row['BLD_AREA'] > row['MAX_GFA']:
+                return 1
+            else: 
+                return 0
+
+    #max height        
+    def label_height (row):
+            if row['height'] > row['MAXHEIGHT']:
+                return 1
+            else: 
+                return 0
+
+    # dua        
+    def label_dua (row):
+            if row['DUA'] > row['DUpAC']: 
+                return 1
+            else:
+                return 0
+
+    #FAR Confomrity
+        def label_far (row):
+            if row['MAXFAR'] > row['FAR']:
+                return 1
+            else: 
+                return 0
+                '''
