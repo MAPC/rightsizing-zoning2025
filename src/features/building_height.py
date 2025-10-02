@@ -19,8 +19,10 @@ munis_fp = os.path.join(datasets_dir, "Boundaries\Spatial\MA_TOWNS.shp")
 #munis_fp = os.path.join(input_dir, 'TOWNSSURVEY_POLY.shp')
 munis=gpd.read_file(munis_fp)
 muni_field = 'TOWN'
+
 project_gdb = r'\\Data-Sync\Public\DataServices\Projects\Current_Projects\Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\Rightsizing_Zoning_2025.gdb'
 ndsm_gdb = r'\\data-sync\public\DataServices\Projects\Current_Projects\Neighborhood_Planning_and_Zoning\Zoning_Projects\Rightsizing_Zoning_2025\Rightsizing_Zoning_ndsm.gdb'
+
 #define variables
 
 
@@ -70,7 +72,6 @@ def create_las_dataset(town_name, las_folder):
         #then, use spatial join to identify intersection between muni boundary and tiles 
         intersecting = index.sjoin(muni_gdf, how='inner')
         intersecting_list =  intersecting['Tile_ID'].tolist()
-
         #create list of tiles
         las_list = []
 
@@ -78,7 +79,7 @@ def create_las_dataset(town_name, las_folder):
             for dirpath, dirnames, filenames in os.walk(las_folder):
                 for filename in filenames:
                     if item in filename: #ignores case
-                        if filename.endswith('.las'): #search for file type
+                        if filename.endswith('.las') : #search for file type
                             las_list.append(os.path.join(dirpath,filename))
 
         #finally, create las dataset based on list of indexed tiles
@@ -301,6 +302,8 @@ def run_building_height_process(gdb_path,
         - parcel info from MAPC parcel database
     '''
 
+    print('Reading in and merging footprints with building heights, created from NDSM')
+
     # MERGE FOOTPRINT LAYERS, ADD 'STORIES' FIELDS # 
     mass_mainland_crs = "EPSG:26986"
 
@@ -324,9 +327,10 @@ def run_building_height_process(gdb_path,
         all_towns_footprints_height[field_name] = (all_towns_footprints_height[stats_field] - .75) / 3.3 #subtract a meter as an (arbitrary) amount of raised-ness as an estimate for meters in a story
 
     ### LAND PARCEL DF FOR ALL OF MMC ### (customizing this for this analysis)
+    print('Reading in parcel database')
 
     #create blank gdf
-    parcel_db_fields = ['LOC_ID', 'Min_LUC_Assign', 'CITY', 'SITE_ADDR_L', 'geometry']
+    parcel_db_fields = ['LOC_ID', 'MIN_LUCA', 'CITY', 'SITE_ADR_L', 'geometry']
     all_towns_parcels = gpd.GeoDataFrame(columns=parcel_db_fields, geometry='geometry')
 
     #add parcel data to blank gdf
@@ -337,6 +341,7 @@ def run_building_height_process(gdb_path,
 
     #join footprints to parcels
     # intersection
+    print('Joining roofprints with parcels')
     structures_w_parcels_overlay = gpd.overlay(all_towns_footprints_height, all_towns_parcels, how='intersection')
 
     #only keep structure-parcel pairs for the parcel the structure is majority on 
@@ -351,10 +356,11 @@ def run_building_height_process(gdb_path,
 
     #now add sqm field, drop area field above (that was just for intersection parts)
     structures_w_parcels['roof_sqm'] = structures_w_parcels.geometry.area
-
+    
+    print('Joining with cool roofs data')
     #add cool roofs "flat_roof" field
     #merge back to roofprints
-    fields_to_keep = ['STRUCT_ID', 'LOC_ID', 'Min_LUC_Assign', 'SITE_ADDR_L', 'CITY', 'MAX',  'MEAN', 'MEDIAN', 'PCT90', 'PCT75', 'PCT25', 
+    fields_to_keep = ['STRUCT_ID', 'LOC_ID', 'MIN_LUCA', 'SITE_ADR_L', 'CITY', 'MAX',  'MEAN', 'MEDIAN', 'PCT90', 'PCT75', 'PCT25', 
                     'MAX_stories', 'MEAN_stories', 'MEDIAN_stories', 'PCT75_stories', 'PCT25_stories',
                     'geometry', 'roof_sqm']
 
@@ -364,7 +370,7 @@ def run_building_height_process(gdb_path,
                                                                         how='left').drop_duplicates()
 
     ## at some point will go back to cool roofs to update code and remove duplicate building issue ##
-
+    print('Calculating primary structure')
     #add primary structure field
     structures_w_parcels['primary_structure'] = 0
 
@@ -373,11 +379,13 @@ def run_building_height_process(gdb_path,
     structures_w_parcels.loc[structures_w_parcels.groupby('LOC_ID')['roof_sqm'].idxmax(),'primary_structure'] = 1
 
     #if condo or housing authority, overwrite (all are "primary structures")
-    structures_w_parcels.loc[(structures_w_parcels['Min_LUC_Assign'] == '102') | #condos
-                            (structures_w_parcels['Min_LUC_Assign'] == '970') | #housing authorities
-                            (structures_w_parcels['Min_LUC_Assign'] == '908'), #housing authority (Boston)
+    structures_w_parcels.loc[(structures_w_parcels['MIN_LUCA'] == '102') | #condos
+                            (structures_w_parcels['MIN_LUCA'] == '114') | #affordable housing
+                            (structures_w_parcels['MIN_LUCA'] == '970') | #housing authorities
+                            (structures_w_parcels['MIN_LUCA'] == '908'), #housing authority (Boston)
                             'primary_structure'] = 1
-
+    
+    print('Exporting to project geodatabase')
     #export to gdb
     structures_w_parcels.to_file(gdb_path, layer=(output_layer_name), driver='OpenFileGDB')
 
