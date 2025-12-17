@@ -208,100 +208,121 @@ def calculate_overlap (layer_1,
 
     return layer_1_enriched
 
-def overlap_stats (layer_1, 
-                   layer_2, 
-                   new_field_name:str,
-                   stats:str='maj',
-                   normalize:bool=True,
-                   inverse:bool=False,
-                   stats_field:str=None,
-                   nan_value=None
-                   ):
-                   
-    '''
-    Assigns the base layer with the (max, min, mean, median, maj (majority), count, sum) value from an overlapping geography that may have multiple 
-    values overlapping the parcel. Best suited for an overlapping geography that may have multiple values within the parcel. 
+def overlap_stats(
+    layer_1,
+    layer_2,
+    new_field_name: str,
+    id_field: str,
+    stats: str = "maj",
+    normalize: bool = True,
+    inverse: bool = False,
+    stats_field: str = None,
+    nan_value=None
+):
+    """
+    Assigns the base layer with the (max, min, mean, median, maj (majority), count, sum) value from an overlapping geography that may have multiple
+    values overlapping the parcel. Best suited for an overlapping geography that may have multiple values within the parcel.
 
-    INPUT PARAMETERS: 
-    - layer_1: (GeoDataFrame) The base layer being enriched  
-    - layer_2: (GeoDataFrame) The overlap layer of interest 
-    - new_field_name: (string) Input a string to represent this layer in the output dataset 
-    
+    INPUT PARAMETERS:
+    - layer_1: (GeoDataFrame) The base layer being enriched
+    - layer_2: (GeoDataFrame) The overlap layer of interest
+    - id_field: (str) Input the ID field for layer_1
+    - new_field_name: (string) Input a string to represent this layer in the output dataset
+
     OPTIONAL PARAMETERS:
     - stats_field: (string) The field of interest for getting statistics
     - stats: (string, default 'mean') 'max', 'min', 'mean', 'median', 'majority', 'count', 'sum'
     - nan_value: Input a nan value for performing stats or normalizing. Will replace with np.nan so it isn't calculated in stats
     - normalize: (bool, default True) When True, adds an additional field containing a normalized value (0-1 scale) of the associated value. Can only be used with continuous variables.
-    - inverse: (bool, default False) When True, the normalized or ranked value is returned as an inverse so that values closer to 1  
+    - inverse: (bool, default False) When True, the normalized or ranked value is returned as an inverse so that values closer to 1
 
     OUTPUT:
-    Fields added to layer_1: 
-    - [new_field_name]_['stat'] 
-    - If normalize: '[new_field_name']_['stat']_n 
-    '''
-    from src.data.make_dataset import id_field
+    Fields added to layer_1:
+    - [new_field_name]_['stat']
+    - If normalize: '[new_field_name']_['stat']_n
+    """
 
-    
-    valid = {'max', 'min', 'mean', 'median', 'maj', 'count', 'sum'}
+    valid = {"max", "min", "mean", "median", "maj", "count", "sum"}
     if stats not in valid:
         raise ValueError("stats must be one of %r." % valid)
 
-    #if there is a nan_value in the stats field, replace here with np.nan
+    # if there is a nan_value in the stats field, replace here with np.nan
     if nan_value:
         layer_2[stats_field] = layer_2.replace(nan_value, np.NaN).copy()
-    
-    #make a list of original columns for later
+
+    # make a list of original columns for later
     layer_1_fields = layer_1.columns.tolist()
-        
-    #reproject all to mass mainland
+
+    # reproject all to mass mainland
     mass_mainland_crs = "EPSG:26986"
     layer_1 = layer_1.to_crs(mass_mainland_crs)
     layer_2 = layer_2.to_crs(mass_mainland_crs)
 
-
-    if stats == 'maj':  #first, if majority, sort by area than drop everything except the largest
-        
+    if (
+        stats == "maj"
+    ):  # first, if majority, sort by area than drop everything except the largest
         # this can only be done with two polygon features currently because limited to 'overlay'
-        layers_joined = layer_1.overlay(layer_2, how='intersection')
+        layers_joined = layer_1.overlay(layer_2, how="intersection")
 
-        #Sort by area so largest area is last
-        layers_joined['area'] = layers_joined.geometry.area
-        layers_joined = layers_joined.sort_values(by='area')
-        layers_joined = layers_joined.drop_duplicates(subset=id_field, keep='last') #Drop duplicates, keep last/largest
+        # Sort by area so largest area is last
+        layers_joined["area"] = layers_joined.geometry.area
+        layers_joined = layers_joined.sort_values(by="area")
+        layers_joined = layers_joined.drop_duplicates(
+            subset=id_field, keep="last"
+        )  # Drop duplicates, keep last/largest
 
-        layers_joined[(new_field_name + '_' + stats)] = layers_joined[stats_field] #rename
+        layers_joined[(new_field_name + "_" + stats)] = layers_joined[
+            stats_field
+        ]  # rename
 
+    if stats == "count":  # if count, get the number of overlapping features
+        # first, perform a spatial join
+        layers_joined = gpd.sjoin(
+            layer_1, layer_2, how="inner"
+        )  # spatial join so can be for features beyond polygons. inner to just get intersecting layers.
 
-    if stats == 'count': #if count, get the number of overlapping features
-        #first, perform a spatial join
-        layers_joined = gpd.sjoin(layer_1, layer_2, how='inner') #spatial join so can be for features beyond polygons. inner to just get intersecting layers.
-        
-        layers_joined[stats] = 1 
-        layers_joined = layers_joined.groupby(by=[id_field]).agg({stats:'sum'}).reset_index()
-        layers_joined[(new_field_name + '_' + stats)] = layers_joined[stats].fillna(0) #rename
+        layers_joined[stats] = 1
+        layers_joined = (
+            layers_joined.groupby(by=[id_field]).agg({stats: "sum"}).reset_index()
+        )
+        layers_joined[(new_field_name + "_" + stats)] = layers_joined[stats].fillna(
+            0
+        )  # rename
 
-    
-    if stats in {'max', 'min', 'mean', 'median', 'sum'}:
-        #first, perform a spatial join
-        layers_joined = gpd.sjoin(layer_1, layer_2, how='inner')
+    if stats in {"max", "min", "mean", "median", "sum"}:
+        # first, perform a spatial join
+        layers_joined = gpd.sjoin(layer_1, layer_2, how="inner")
 
-        #then do a groupby with the stats field and stats
-        layers_joined = layers_joined.groupby(by=id_field).agg({stats_field:stats}).reset_index()
+        # then do a groupby with the stats field and stats
+        layers_joined = (
+            layers_joined.groupby(by=id_field).agg({stats_field: stats}).reset_index()
+        )
 
-        layers_joined[new_field_name + '_' + stats] = layers_joined[stats_field]
+        layers_joined[new_field_name + "_" + stats] = layers_joined[stats_field]
 
-    
-    layer_1_enriched = layer_1.merge(layers_joined[[id_field, (new_field_name + '_' + stats)]], on=id_field, how='left').fillna(np.nan)
+    layer_1_enriched = layer_1.merge(
+        layers_joined[[id_field, (new_field_name + "_" + stats)]],
+        on=id_field,
+        how="left",
+    ).fillna(np.nan)
 
-    if normalize: 
-        layer_1_enriched[(new_field_name + '_' + stats + '_n')] = normalize_field(layer_1_enriched, (new_field_name + '_' + stats))
+    if normalize:
+        layer_1_enriched[(new_field_name + "_" + stats + "_n")] = normalize_field(
+            layer_1_enriched, (new_field_name + "_" + stats)
+        )
         if inverse:
-            layer_1_enriched[(new_field_name + '_' + stats + '_n')] = 1 - layer_1_enriched[(new_field_name + '_' + stats + '_n')] 
-        layer_1_enriched = layer_1_enriched[layer_1_fields + [(new_field_name + '_' + stats), (new_field_name + '_' + stats + '_n')]]
-    
-    else:
-        layer_1_enriched = layer_1_enriched[layer_1_fields + [(new_field_name + '_' + stats)]]
+            layer_1_enriched[(new_field_name + "_" + stats + "_n")] = (
+                1 - layer_1_enriched[(new_field_name + "_" + stats + "_n")]
+            )
+        layer_1_enriched = layer_1_enriched[
+            layer_1_fields
+            + [(new_field_name + "_" + stats), (new_field_name + "_" + stats + "_n")]
+        ]
 
+    else:
+        layer_1_enriched = layer_1_enriched[
+            layer_1_fields + [(new_field_name + "_" + stats)]
+        ]
 
     return layer_1_enriched
 

@@ -28,23 +28,28 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     
     ## For Test Report
     og_parcels = len(set(muni_parcels['LOC_ID']))
+    og_parcels_len = len(muni_parcels['LOC_ID'])
 
     # Calculate necessary fields 
-    muni_parcels['DUA'] = muni_parcels[units]/(muni_parcels['LOT_SIZE_GIS']/43560)
-    muni_parcels['LPU'] = (muni_parcels['LOT_SIZE_GIS']/43560)/muni_parcels[units]
+    muni_parcels['DUA'] = muni_parcels[units]/(muni_parcels['LOT_SIZE_G']/43560)
+    muni_parcels['LPU'] = (muni_parcels['LOT_SIZE_G']/43560)/muni_parcels[units]
 
-    #Joining Building Data from LIDAR 
-    ldr_bld['ftpt_area'] = ldr_bld.area
-    ldr_bld_join = ldr_bld[['LOC_ID_bld', 'MEDIAN', 'MEDIAN_stories', 'ftpt_area']]
+    #Joining Building Data from LIDAR
+    # building foot print geometry
+    
+    ldr_bld_muni = ldr_bld[ldr_bld['CITY'] == town_name].copy() #ensures pandas knows this is a new object
+    ldr_bld_muni['ftpt_area'] = ldr_bld_muni.area
+    # ldr_bld_join = ldr_bld_muni[['LOC_ID_bld', 'MEDIAN', 'MEDIAN_stories', 'ftpt_area']]
     #outer join for footprint so we don't lose parcels that don't have one? 
-    muni_parcels = structure_merge(ldr_bld_join, muni_parcels)
+    muni_parcels = structure_merge(ldr_bld_muni, muni_parcels)
     muni_parcels['floors'] = round(muni_parcels['MEDIAN_stories']*4)/4 #rounds to quarter story baed on median height
-    muni_parcels['height'] = muni_parcels['MEDIAN']*3.8084
+    muni_parcels['height'] = muni_parcels['MEDIAN']*3.8084 #meters to feet
     #moving the filter around
     muni_parcels = muni_parcels[muni_parcels[units]> 2]
 
     ## For Test Report
     bld_parcels = len(set(muni_parcels['LOC_ID']))
+    bld_parcels_len = len(muni_parcels['LOC_ID'])
 
     ## will soon join in key fields from LIDAR analysis
         # Height
@@ -68,16 +73,28 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     muni_w_zoning = zoning_merge(zoning_gdf= res_zoning,
                                  parcels_gdf= muni_parcels)
     
+    if zone_type == "overlay":
+        muni_w_zoning = muni_w_zoning.dropna(subset = 'ZO_CODE')
+    else:
+        muni_w_zoning  = muni_w_zoning
+
+    if len(muni_w_zoning) == 0:
+        print("No Multifamily Parcels in Overlay Zones")
+        return muni_w_zoning
+    else:
+        print("Multifamily Parcels Detected in Overlay Zones")
+    
     ## For Test Report
     zj_parcels = len(set(muni_w_zoning['LOC_ID']))
+    zj_parcels_len = len(muni_w_zoning['LOC_ID'])
     #print("Parcels with Zoning" )
     #print(zj_parcels)
     no_zone_parcels = len(set(muni_w_zoning[muni_w_zoning['ZO_CODE'].isna()]['LOC_ID']))
     #print("Parcels without Zoning")
     #print(no_zone_parcels)
     
-    # building foot print geometry
-    bld_footprint = ldr_bld[ldr_bld['CITY'] == town_name]
+    # # building foot print geometry
+    # bld_footprint = ldr_bld[ldr_bld['CITY'] == town_name]
 
 
     #### CRITERIA 1: Parcel Size ####
@@ -94,7 +111,7 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     def label_lotsize (row):
         if np.isnan(row['MINLOTSIZE']):
             return np.nan
-        elif row['LOT_SIZE'] > row['MINLOTSIZE']: #original min_lot_area. All in SF. Do i need to change to LOTSIZE GIS ? 
+        elif row['LOT_SIZE_G'] > row['MINLOTSIZE']: #all in SF
             return 0
         else:
             return 1
@@ -105,10 +122,10 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     
     # pct lot coverage
     # calculate the percent of the parcer covered by the building structures
-    parcel_size_criteria = calculate_overlap(layer_1= parcel_size_criteria,
-                                             layer_2 = bld_footprint,
-                                             how = "percent",
-                                             new_field_name = 'par_lot_cov')
+    # parcel_size_criteria = calculate_overlap(layer_1= parcel_size_criteria,
+    #                                          layer_2 = ldr_bld_muni,
+    #                                          how = "percent",
+    #                                          new_field_name = 'par_lot_cov')
     
     ## For Test Report 
     ovlp_parcels = len(set(parcel_size_criteria['LOC_ID']))
@@ -243,7 +260,7 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     
     #FAR Confomrity
     def label_far (row):
-        if np.isnan(row['FAR']):
+        if np.isnan(row['MAXFAR']):
             return np.nan
         elif row['MAXFAR'] > row['FAR']:
             return 1
@@ -310,64 +327,147 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     ## For Test Report
     ot_parcels = len(set(conformity_scores['LOC_ID']))
     output_zones = len(set(conformity_scores['ZO_CODE']))
+    output_length = len(conformity_scores)
     
     all_conf_fields = ['ls_conf', 'lc_conf', 'ld_conf', 'lu_conf', 'fl_conf', 'ht_conf', 'gfa_conf', 'du_conf', 'dua_conf', 'far_conf']
+    all_measure_fields = res_zoning.columns.to_list()[18:27]
+    all_measure_fields.insert(3, "ZO_AldUse")
 
-    conformity_scores['size_sum'] = conformity_scores[['ls_conf', 'lc_conf', 'ld_conf']].sum(axis = 1)
-    conformity_scores['shape_sum'] = conformity_scores[['lu_conf', 'fl_conf', 'ht_conf', 'gfa_conf', 'far_conf']].sum(axis = 1)
-    conformity_scores['dense_sum'] = conformity_scores[['du_conf', 'dua_conf' ]].sum(axis = 1)
+    conformity_scores['size_sum'] = conformity_scores[['ls_conf', 'lc_conf', 'ld_conf']].sum(axis = 1, skipna = True)
+    conformity_scores['shape_sum'] = conformity_scores[['lu_conf', 'fl_conf', 'ht_conf', 'gfa_conf', 'far_conf']].sum(axis = 1, skipna = True)
+    conformity_scores['dense_sum'] = conformity_scores[['du_conf', 'dua_conf' ]].sum(axis = 1, skipna = True)
     conformity_scores['size_count'] = conformity_scores[['ls_conf', 'lc_conf', 'ld_conf']].count(axis = 1)
     conformity_scores['shape_count'] = conformity_scores[['lu_conf', 'fl_conf', 'ht_conf', 'gfa_conf', 'far_conf']].count(axis = 1)
     conformity_scores['dense_count'] = conformity_scores[['du_conf', 'dua_conf' ]].count(axis = 1)
-    conformity_scores['Total'] = conformity_scores[['size_sum', 'shape_sum', 'dense_sum']].sum(axis = 1)
-    conformity_scores['Measures'] = conformity_scores[all_conf_fields].count(axis = 1)
+    conformity_scores['Total'] = conformity_scores[['size_sum', 'shape_sum', 'dense_sum']].sum(axis = 1, skipna = True)
+    conformity_scores['Measures'] = conformity_scores[all_measure_fields].count(axis = 1)
+    conformity_scores['Tested Measures'] = conformity_scores[all_conf_fields].count(axis = 1)
  
     if score == True:
         return conformity_scores
     else:
         analysis_report = {
-            'Test': ['Original Parcel Count', 'LIDAR Join Parcel Count', 'Zoning Join Parcel Count', 'Overlap Test Parcels', 'Output Parcel Count','Parcels without Zoning', 'Original Zones', 'Zones in Parcel Output'],
-            'Value': [og_parcels, bld_parcels, zj_parcels,  ovlp_parcels, ot_parcels, no_zone_parcels, og_zones, output_zones]}
+            'Test': ['Original Parcel Count', 'Parcel Layer Length', 'LIDAR Join Parcel Count', 'LIDAR Join Length', 'Zoning Join Parcel Count', 'Zoning Join Length','Overlap Test Parcels', 'Output Parcel Count','Parcels without Zoning', 'Original Zones', 'Zones in Parcel Output', 'Total Rows'],
+            'Value': [og_parcels, og_parcels_len, bld_parcels, bld_parcels_len, zj_parcels, zj_parcels_len, ovlp_parcels, ot_parcels, no_zone_parcels, og_zones, output_zones, output_length]}
         
         analysis_report = pd.DataFrame(analysis_report)
         return analysis_report
 
 #def run_zoning_district_scoring():
-def test_merge(town_name, zone_type):
+def test_merge(town_name, zone_type, zoning_check):
 
     muni_parcels = get_landuse_data(town_name)
-    ldr_bld['ftpt_area'] = ldr_bld.area
-    ldr_bld_join = ldr_bld[['LOC_ID_bld', 'MEDIAN', 'MEDIAN_stories', 'ftpt_area']]
+    # print(len(muni_parcels))
+
+    ldr_bld_muni = ldr_bld[ldr_bld['CITY'] == town_name].copy() #ensures pandas knows this is a new object
+    # print(len(ldr_bld_muni))
+    ldr_bld_muni['ftpt_area'] = ldr_bld_muni.area
+    # ldr_bld_join = ldr_bld_muni[['LOC_ID_bld', 'MEDIAN', 'MEDIAN_stories', 'ftpt_area']]
     #outer join for footprint so we don't lose parcels that don't have one? 
-    muni_parcels = structure_merge(ldr_bld_join, muni_parcels)
+    muni_parcels = structure_merge(ldr_bld_muni, muni_parcels)
+    # print(len(muni_parcels))
     muni_parcels = muni_parcels[muni_parcels[units]> 2]
+    # print(len(muni_parcels))
+    # print(len(muni_parcels['LOC_ID_bld'].isna()))
+
+    muni_parcels['DUA'] = muni_parcels[units]/(muni_parcels['LOT_SIZE_G']/43560)
+    muni_parcels['LPU'] = (muni_parcels['LOT_SIZE_G']/43560)/muni_parcels[units]
 
     res_zoning = get_zoning_data(town_name, type = zone_type)
     print(set(res_zoning['ZO_AldUse']))
     muni_w_zoning = zoning_merge(zoning_gdf= res_zoning,
-                                 parcels_gdf= muni_parcels)
+                                parcels_gdf= muni_parcels)
     
     print("LOCIDs of Parcels without Zoning")
     print(set(muni_w_zoning[muni_w_zoning['ZO_CODE'].isna()]['LOC_ID']))
     allowed_uses = set(muni_w_zoning['ZO_AldUse'])
-
     print(allowed_uses)
+    if zoning_check == True :
+        return muni_w_zoning
+    
+    else: 
 
-    return muni_w_zoning
 
+        # muni_w_zoning = calculate_overlap(layer_1= muni_w_zoning,
+        #                                          layer_2 = ldr_bld_muni,
+        #                                          how = "percent",
+        #                                          new_field_name = 'par_lot_cov')
+
+        print(muni_w_zoning.columns)
+        print(len(muni_w_zoning[muni_w_zoning['par_lot_cov_pct'].isna()]))
+
+        all_conf_fields = ['ls_conf', 'lc_conf', 'ld_conf', 'lu_conf', 'fl_conf', 'ht_conf', 'du_conf', 'dua_conf', 'far_conf','gfa_conf']
+        all_measure_fields = res_zoning.columns.to_list()[18:27]
+        all_measure_fields.insert(3, "ZO_AldUse")
+        all_req_cond_fields = ['LOT_SIZE', 'par_lot_cov_pct', 'LOT_SIZE_G', luc_adjusted, 'MEDIAN_stories', 'MEDIAN',  units, 'DUA', 'FAR', 'BLD_AREA']
+
+
+        
+        missing_count = []
+        for ex_cond in all_req_cond_fields:
+            print(ex_cond)
+            na_fields = len(muni_w_zoning[muni_w_zoning[ex_cond].isna()])
+            missing_count.append(na_fields)
+
+            
+        column_report = {
+            'Conformity Field' : all_conf_fields,
+            'Zoning Measures' : all_measure_fields,
+            'Existing Conditions' : all_req_cond_fields,
+            'Missing Count' : missing_count
+        }
+
+        column_report = pd.DataFrame(column_report)
+        column_report['Municipality'] = town_name
+        print(column_report)
+
+        return column_report
     # if len(allowed_uses == True )>0 :
     #     print("Missing Allowed Use")
     # else :
     #     print ("Allowed Uses All Good")
 
 
-def analysis_outputs(town_name):
+def analysis_outputs(town_name, conf_summary = True):
 
-    # base_zone_summary = readzonesummary
+    all_conf_fields = ['ls_conf', 'lc_conf', 'ld_conf', 'lu_conf', 'fl_conf', 'ht_conf', 'far_conf','gfa_conf', 'du_conf', 'dua_conf']
+    size_conf_fields = ['ls_conf', 'lc_conf', 'ld_conf']
+    shape_conf_fields = ['lu_conf', 'fl_conf', 'ht_conf', 'gfa_conf', 'far_conf']
+    density_conf_fields = ['du_conf', 'dua_conf']
+
+    d1 = dict.fromkeys(all_conf_fields, (lambda x: x.sum(skipna = False)))
+    d2 = dict.fromkeys(['LOC_ID'], 'count')
+    d3 = dict.fromkeys([units, 'floors', 'height'], 'mean')
+    d = d1 | d2 | d3
+
+
+    rz_gdb = r"\\Data-Sync\Public\DataServices\Projects\Current_Projects\Housing\Zoning-to-Built-Form\Rightsizing Zoning\Rightsizing Zoning.gdb"
+    # base_zone_summary = gpd.read_file(rz_gdb, layer= "mmc_base_zone_scores")
+    # base_zone_summary_muni = base_zone_summary[base_zone_summary['CITY'] == town_name]
+
+    layer_name = town_name + "_conformityscores_base"
+
+    base_parcel_scores = gpd.read_file(rz_gdb, layer= layer_name)
+    #base_parcel_scores = base_parcel_scores[base_parcel_scores['CITY'] == town_name]
+    
     # overlay_zone_summary = readzonesummary
     # parcel_summary = readparceloutputs
+
     #1 Which Zoning Standards lead to the most non-conformity?
-    #analysis_1 = #normalize average non-conformity?
+    analysis_1 = base_parcel_scores[all_conf_fields + ['LOC_ID'] + ['ZO_CODE'] + [units] + ['height'] + ['floors']]
+
+    summary = analysis_1.groupby('ZO_CODE').agg(d)
+    summary['Municipality'] = town_name
+
+
+    for col in all_conf_fields:
+        summary[col] = round(summary[col]/summary['LOC_ID'], 2)
+    
+    analysis1_total = summary[all_conf_fields].max(skipna = True).idxmax() #returns the first max value column--we will need the full table somewhere
+    analysis1_size = summary[size_conf_fields].max(skipna = True).idxmax()
+    analysis1_shape = summary[shape_conf_fields].max(skipna = True).idxmax()
+    analysis1_density = summary[density_conf_fields].max(skipna = True).idxmax()
+
 
     #2 Difference between base zoning and overlay
     #analysis_2 = #overlay base and overlay, do math on scores base-overlay, average effect of overlay zoning on non-conformity
@@ -376,22 +476,37 @@ def analysis_outputs(town_name):
     # By Right vs Special permit? ?
 
     #3 Nonconformity Score (total and subcategories) correlation with year built 
-    #analysis_3 = df['A'].corr(df['B'])
+    analysis_3 = base_parcel_scores['Total'].corr(base_parcel_scores['YEAR_BUILT'])
+    analysis_3_size =base_parcel_scores['size_sum'].corr(base_parcel_scores['YEAR_BUILT'])
+    analysis_3_shpe =base_parcel_scores['shape_sum'].corr(base_parcel_scores['YEAR_BUILT'])
+    analysis_3_dens =base_parcel_scores['dense_sum'].corr(base_parcel_scores['YEAR_BUILT']) 
+
+    #return analysis_3
 
     #4 Nonconfomirty Score correlation (total and subcategories) with lot size
-    #analysis_4 = df['A'].corr(df['B'])
+    analysis_4 = base_parcel_scores['Total'].corr(base_parcel_scores['LOT_SIZE_G'])
+    analysis_4_size = base_parcel_scores['size_sum'].corr(base_parcel_scores['LOT_SIZE_G'])
+    analysis_4_shpe = base_parcel_scores['shape_sum'].corr(base_parcel_scores['LOT_SIZE_G'])
+    analysis_4_dens = base_parcel_scores['dense_sum'].corr(base_parcel_scores['LOT_SIZE_G']) 
+
+    #return analysis_4
 
     analysis_output = {
-        'Analysis Concept': {'Zoning Standard with most Nonconformity', 'Average Effect of Overlay Zoning', 'Correlation Score: Year Built', 'Correlation Score: Lot Size'},
-        'Overall Conformity': {},
-        'Lot Size': {},
-        'Building Shape': {},
-        'Unit Density': {}
-    }
+         'Analysis Concept': ['Zoning Standard with most Nonconformity', 'Average Effect of Overlay Zoning', 'Correlation Score: Year Built', 'Correlation Score: Lot Size'],
+         'Total Conformity': [analysis1_total, np.nan, analysis_3, analysis_4],
+         'Lot Size': [analysis1_size, np.nan, analysis_3_size, analysis_4_size],
+         'Building Shape': [analysis1_shape, np.nan, analysis_3_shpe,analysis_4_shpe],
+         'Unit Density': [analysis1_density, np.nan, analysis_3_dens, analysis_4_dens]
+     }
 
-    analysis_output = pd.DataFrame(analysis_output)
+    analysis_output_df = pd.DataFrame.from_dict(analysis_output)
+    analysis_output_df['Municipality'] = town_name
+    analysis_output_df = analysis_output_df.set_index('Analysis Concept')
 
-    return(analysis_output)
+    if conf_summary == True:
+        return summary
+    else :
+        return analysis_output_df
 
 def zone_comparisons():
 
@@ -401,6 +516,24 @@ def zone_comparisons():
     '''
 
     print("TBD")
+
+def get_popular_building_styles(muni):
+
+    '''
+    Task 1.3 What are the 5 most common residential building styles?
+    '''
+    parcels = get_landuse_data(muni)
+
+    parcels = parcels[parcels['MIN_LUCA'].str.startswith("1")]
+    parcels = parcels[parcels[units]> 2]
+
+    # d1 = dict.fromkeys([])
+    d2 = dict.fromkeys(['LOC_ID'], 'count')
+    # d = d1 | d2
+
+    parcels_style = parcels.groupby('STYLE').agg(d2)
+
+    return parcels_style
 
 
 

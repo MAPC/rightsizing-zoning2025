@@ -6,14 +6,18 @@ import arcpy
 from arcgis import GIS
 from arcgis.features import FeatureLayer, FeatureSet
 import json
+import io
+from io import BytesIO
 import zipfile36 as zipfile
 from io import BytesIO
 from urllib.request import urlopen
 import shutil
+import requests
 import rasterio
 import math 
 from shapely.geometry.polygon import Polygon
 from shapely.geometry import Polygon, box
+import tempfile
 
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
@@ -159,6 +163,72 @@ def normalize_field(df, col:str):
         
     return df_norm
 
+def get_most_updated_state_assessors_data(muni, path=None, include_row=False):
+    """
+    pulls parcel data from the state's assessors website (with an exception for Boston who hosts separately)
+    """
+    from src.data.make_dataset import boston_assessors_csv, boston_parcels_url
+    if not path:
+        path = tempfile.mkdtemp()
+
+    if muni == "Boston":
+        print("reading Boston data from ", boston_parcels_url, ". Update if necessary.")
+        # get geojson from boston's open data portal and download
+
+        # unzip to temp folder
+        boston_parcels_gdf = get_gdf_from_zipped_link(boston_parcels_url, file_type="shp")
+
+        # download csv
+        s = requests.get(boston_assessors_csv).content
+        boston_assessors = pd.read_csv(io.StringIO(s.decode("utf-8")), dtype={'GIS_ID': str})
+        #boston_assessors["GIS_ID"] = boston_assessors["GIS_ID"].astype(str)
+
+        # merge gdf to assessor's data
+        parcel_layer = boston_parcels_gdf.merge(
+            boston_assessors, how="inner", left_on="MAP_PAR_ID", right_on="GIS_ID"
+        )
+
+        if include_row:
+            pass
+        else:
+            parcel_layer = parcel_layer.loc[parcel_layer["POLY_TYPE"] == "FEE"]
+        return parcel_layer
+
+    else:
+        # get shapefile from a massgis link
+        shapefile_excel = (
+            "https://www.mass.gov/doc/massgis-parcel-data-download-links-table/download"
+        )
+        shapefile_lookup = pd.read_excel(shapefile_excel)
+
+        town_shp_lookup_link = shapefile_lookup.loc[
+            shapefile_lookup["Town Name"] == muni.upper()
+        ]
+
+        # extract into a temporary folder for use
+
+        # path = os.path.join(project_dir, 'Data', muni) #make a subdirectory in ortho folder w town name
+        # os.makedirs(path, exist_ok=True)
+
+        for url in town_shp_lookup_link["Shapefile Download URL"].tolist():
+            with urlopen(url) as zipresp:
+                with zipfile.ZipFile(BytesIO(zipresp.read())) as zfile:
+                    zfile.extractall(path)
+
+        layer = get_file(path, "TaxPar", ".shp")
+        parcel_layer = gpd.read_file(layer)
+        if include_row:
+            pass
+        else:
+            parcel_layer = parcel_layer.loc[parcel_layer["POLY_TYPE"] == "FEE"]
+
+        # delete temporary directory
+        shutil.rmtree(path)
+
+        parcel_layer = parcel_layer.to_crs(mass_mainland_crs)
+
+        return parcel_layer
+
 def get_landuse_data(muni):
     
     '''
@@ -170,72 +240,80 @@ def get_landuse_data(muni):
     output = state detailed parcel layer, merged with mapc land parcel database
     '''
 
-    from src.data.make_dataset import mapc_lpd_folder, mass_mainland_crs    
+    from src.data.make_dataset import mapc_lpd_folder, mass_mainland_crs, luc_adjusted    
     project_dir = r'C:\Users\ZIacovino\Desktop\temp_muni'
 
-    def get_most_updated_state_assessors_data(muni):
+    # def get_most_updated_state_assessors_data(muni):
 
-        '''
-        pulls parcel data from the state's assessors website (with an exception for Boston who hosts separately)
-        '''
+    #     '''
+    #     pulls parcel data from the state's assessors website (with an exception for Boston who hosts separately)
+    #     '''
 
         
-        if muni == 'Boston':
-            #get shapefile from boston's open data portal and download
-            boston_parcels_fp = os.path.join(projects_dir, r"PDAs_PPAs\I90_PPA_PDA\Data\boston_parcels\Parcels_(2024)\Parcels_(2024).shp")
-            boston_parcels = gpd.read_file(boston_parcels_fp)
-            #change in make_dataset.py
+    #     if muni == 'Boston':
+    #         #get shapefile from boston's open data portal and download
+    #         boston_parcels_fp = os.path.join(projects_dir, r"PDAs_PPAs\I90_PPA_PDA\Data\boston_parcels\Parcels_(2024)\Parcels_(2024).shp")
+    #         boston_parcels = gpd.read_file(boston_parcels_fp)
+    #         #change in make_dataset.py
 
-            parcel_layer = boston_parcels.copy()
+    #         parcel_layer = boston_parcels.copy()
 
-            parcel_layer = parcel_layer.loc[parcel_layer['POLY_TYPE']=='FEE']
-            return(parcel_layer)
+    #         parcel_layer = parcel_layer.loc[parcel_layer['POLY_TYPE']=='FEE']
+    #         return(parcel_layer)
         
 
-        else:
+    #     else:
 
-            #get shapefile from a massgis link
-            shapefile_excel = 'https://www.mass.gov/doc/massgis-parcel-data-download-links-table/download'
-            shapefile_lookup = pd.read_excel(shapefile_excel)
+    #         #get shapefile from a massgis link
+    #         shapefile_excel = 'https://www.mass.gov/doc/massgis-parcel-data-download-links-table/download'
+    #         shapefile_lookup = pd.read_excel(shapefile_excel)
 
-            town_shp_lookup_link = shapefile_lookup.loc[shapefile_lookup['Town Name'] == muni.upper()]
+    #         town_shp_lookup_link = shapefile_lookup.loc[shapefile_lookup['Town Name'] == muni.upper()]
 
-            #extract into a temporary folder for use
+    #         #extract into a temporary folder for use
             
-            path = os.path.join(project_dir, 'Data', muni) #make a subdirectory in ortho folder w town name
-            os.makedirs(path, exist_ok=True) 
+    #         path = os.path.join(project_dir, 'Data', muni) #make a subdirectory in ortho folder w town name
+    #         os.makedirs(path, exist_ok=True) 
 
-            for url in town_shp_lookup_link['Shapefile Download URL'].tolist():
-                with urlopen(url) as zipresp:
-                    with zipfile.ZipFile(BytesIO(zipresp.read())) as zfile:
-                        zfile.extractall(path)
+    #         for url in town_shp_lookup_link['Shapefile Download URL'].tolist():
+    #             with urlopen(url) as zipresp:
+    #                 with zipfile.ZipFile(BytesIO(zipresp.read())) as zfile:
+    #                     zfile.extractall(path)
 
 
-            layer = get_file(path, 'TaxPar', '.shp')
-            parcel_layer = gpd.read_file(layer)
+    #         layer = get_file(path, 'TaxPar', '.shp')
+    #         parcel_layer = gpd.read_file(layer)
 
-            parcel_layer = parcel_layer.loc[parcel_layer['POLY_TYPE']=='FEE']
-            return(parcel_layer)
+    #         parcel_layer = parcel_layer.loc[parcel_layer['POLY_TYPE']=='FEE']
+    #         return(parcel_layer)
         
 
     #get the most updated parcel data from massgis
     muni_state_parcels = get_most_updated_state_assessors_data(muni)
 
     #now delete the temporary folder that was made for that layer
-    if muni == 'Boston':
-        pass
-    else:
-        path = os.path.join(project_dir, 'Data', muni)
-        shutil.rmtree(path)
+    # if muni == 'Boston':
+    #     pass
+    # else:
+    #     path = os.path.join(project_dir, 'Data', muni)
+    #     shutil.rmtree(path)
 
     #read in land parcel database
-    file_name = get_file(dir_name=mapc_lpd_folder, 
-                         muni=muni)
+    # file_name = get_file(dir_name=mapc_lpd_folder, 
+    #                      muni=muni)
+
+    file_name = "LPDB_DRAFT_" + muni + "_Q2.2025.csv"
 
     #file_name = lpd_prefix + muni + lpd_suffix
     muni_lpd_path = os.path.join(mapc_lpd_folder, file_name)
-    mapc_lpd = pd.read_csv(muni_lpd_path) 
-
+    mapc_lpd = pd.read_csv(muni_lpd_path, dtype={
+        luc_adjusted: 'string',
+        'MIN_LUC': 'string'})
+    mapc_lpd[luc_adjusted] = np.where((mapc_lpd[luc_adjusted].isna()), mapc_lpd['MIN_LUC'], mapc_lpd[luc_adjusted]) 
+    # mapc_lpd[luc_adjusted] = mapc_lpd[luc_adjusted].astype("int64")
+    # mapc_lpd[luc_adjusted] = mapc_lpd[luc_adjusted].astype("string")
+    # mapc_lpd[luc_adjusted] = np.where(len(mapc_lpd[luc_adjusted])<3, '0'+mapc_lpd[luc_adjusted], mapc_lpd[luc_adjusted])
+    
     # lidar dataset: just MMC communities, needs a height field
     # how do I de-dupe the LOD IDs?
     #ldr_sub = lidar_bld[['LOC_ID','CITY', 'flat_roof', 'geometry']]
@@ -478,6 +556,7 @@ def get_zoning_data(muni, type = 'base'):
     #reg_table_fp = os.path.join(zoning_project_dir, "zoning-regs-by_right.csv")
     reg_table = pd.read_csv(reg_table_fp)
     reg_table = reg_table[reg_table['MUNI'] == muni]
+    print(reg_table.head())
     
     reg_table['PCTLOTCOV'] = pd.to_numeric(reg_table['PCTLOTCOV'].str.strip('%'))
 
@@ -509,45 +588,63 @@ def zoning_merge(zoning_gdf, parcels_gdf):
 
     # join the parcels to the zoning, potentially cutting up parcels in split zones
     par_zon_join = parcels_gdf.overlay(zoning_gdf, how = "intersection", keep_geom_type = True)
-    # print("Parcel Rows")
-    # print(len(parcels_gdf['LOC_ID']))
-    # print("Unique LOC_IDS")
-    # print(len(set(parcels_gdf['LOC_ID'])))
-    # print("Joined Parcel Length")
-    # print(len(par_zon_join['LOC_ID']))
+    print("Parcel Rows")
+    print(len(parcels_gdf['LOC_ID']))
+    print("Unique LOC_IDS")
+    print(len(set(parcels_gdf['LOC_ID'])))
+    print("Joined Parcel Length")
+    print(len(par_zon_join['LOC_ID']))
 
     if len(par_zon_join['LOC_ID']) >  len(set(par_zon_join['LOC_ID'])):
 
-        print ("Split Zoned Parcels Detected")       
-        # determine the proportion of the total parcel area
+        print ("Split Zoned Parcels Detected")
+
+     # determine the proportion of the total parcel area
         par_zon_join['zone_area'] = par_zon_join['geometry'].area
-        par_zon_join['zone_share'] = par_zon_join.apply(lambda row: row['zone_area']*10.7639/row['LOT_SIZE_GIS'], axis=1) #its a row
+        par_zon_join['zone_share'] = par_zon_join.apply(lambda row: row['zone_area']*10.7639/row['LOT_SIZE_G'], axis=1) #its a row
+        
 
-        # ID the index of the row with the largest share of a parcel in a zone for each unique LOCID, reset_index() makes into a df
-        idx = par_zon_join.fillna(999999).groupby('LOC_ID')['zone_share'].idxmax().reset_index()
+     # ID the index of the row with the largest share of a parcel in a zone for each unique LOCID, reset_index() makes into a df
+        idx = par_zon_join.fillna('999999').groupby('LOC_ID')['zone_share'].idxmax().reset_index()
+        
+        #print(len(idx))
 
-        # subset the original spatial join to the rows where the share is the largest for each unique LOC ID--should be one row for each LOCID again
+     # subset the original spatial join to the rows where the share is the largest for each unique LOC ID--should be one row for each LOCID again
         clean_join = par_zon_join.loc[idx['zone_share']]
         print("Clean Join successful?")
         print(len(idx) == len(clean_join))
-        # cut that table to just the LOC ID and the ZO Code, confirm pd
+
+     # cut that table to just the LOC ID and the ZO Code, confirm pd
         par_zon_xwalk = clean_join[['LOC_ID','ZO_CODE']]
-        # join the zone code onto the parcels, double check the join
+        #print(par_zon_xwalk)
+
+     # join the zone code onto the parcels, double check the join
         parcels_zone_rec = pd.merge(parcels_gdf, par_zon_xwalk, left_on= 'LOC_ID', right_on= "LOC_ID", how = "left")
+        
         print("Any Parcels missing a Zone Code?")
         print(len(parcels_zone_rec[parcels_zone_rec['ZO_CODE'].isna()]['LOC_ID']))
-        print("Same number of parcels we started with?")
+        print("Same parcels we started with?")
         print(set(parcels_zone_rec['LOC_ID']) == set(parcels_gdf['LOC_ID']))
+        print("Same number of parcels we started with?")
+        print(len(parcels_zone_rec) == len(parcels_gdf['LOC_ID']))
         #print("Parcels with the Zoning Code")
         #print(parcels_zone_rec.info())
-        # take the zoning input and get rid of the geometry so we can do non-spatial joins
-        zoning_table = pd.DataFrame(zoning_gdf.drop(columns= ['geometry', 'Shape_Length', 'Shape_Area', 'EDITDATE']))
+
+     # take the zoning input and get rid of the geometry so we can do non-spatial joins, reduce to just the table
+        zoning_table = pd.DataFrame(zoning_gdf.drop(columns= ['geometry', 'shape_leng', 'Shape_Length', 'Shape_Area', 'EDITDATE']))
+        print("Zoning Table pre-dedupe")
+        print(len(zoning_table))
         zoning_table = zoning_table.drop_duplicates()
-        # join the rest of the zoning table back to the parcels
+        print("Zoning Table post De-Dupe")
+        print(len(zoning_table))
+
+        
+     # join the rest of the zoning table back to the parcels
         par_zon_join_fixed = pd.merge(parcels_zone_rec, zoning_table, left_on= 'ZO_CODE', right_on= 'ZO_CODE', how = "left")
+        
         print("Parcels with Zoning Table Joined")
         #print(par_zon_join_fixed.info())
-        print(len(set(par_zon_join_fixed['LOC_ID'])))
+        print(len(par_zon_join_fixed['LOC_ID']))
         print("Zones assigned to Parcels by Largest Share")
         return par_zon_join_fixed
 
@@ -565,10 +662,12 @@ def gdb_write(gdf, gdb, layer_name):
 
 
 def structure_merge(roofprints_gdf, parcels_gdf):
-
+    from src.features.indicator_functions import calculate_overlap
     #Roofprints filtered to primary structures
-    # print(len(roofprints_gdf['LOC_ID_bld']))
-    # print(len(set(roofprints_gdf['LOC_ID_bld'])))
+    print("Total Rows in Roofprints")
+    print(len(roofprints_gdf['LOC_ID_bld']))
+    print('Total Unique Parcel IDs')
+    print(len(set(roofprints_gdf['LOC_ID_bld'])))
 
     # first step is consolidating multiple structure parcels to one value per LOC_ID
     def structure_consolidation(field_name, minmaxsum):
@@ -595,16 +694,33 @@ def structure_merge(roofprints_gdf, parcels_gdf):
             return print("please specificy max or min in minmax")
         
     floors = structure_consolidation('MEDIAN_stories', 'max')
-    #print(len(floors))
+    print(len(floors))
     height = structure_consolidation('MEDIAN', 'max')
-    #print(len(height))
+    print(len(height))
     coverage = structure_consolidation('ftpt_area', 'sum')
-    #print(len(coverage))
+    print(len(coverage))
 
     full_table = pd.merge(pd.merge(floors, height, on = 'LOC_ID_bld', how =  'outer'), coverage, 
                           on = 'LOC_ID_bld', how = 'outer')
 
+    print('Rows in final join table for Building Structures')
+    print(len(full_table))
+    print('Unique Parcels in Building Structures')
+    print(len(set(full_table['LOC_ID_bld'])))
     parcels_gdf = parcels_gdf.merge(full_table, left_on = 'LOC_ID', right_on = 'LOC_ID_bld', how = 'outer')
+    print('Rows in final parcel layer')
+    print(len(parcels_gdf))
+    print('Unique Parcels in Final Parcel Layer')
+    print(len(set(parcels_gdf['LOC_ID'])))
+    parcels_gdf = calculate_overlap(layer_1= parcels_gdf,
+                                             layer_2 = roofprints_gdf,
+                                             how = "percent",
+                                             new_field_name = 'par_lot_cov',
+                                             normalize= False)
+    print('Rows in overlap calc parcel layer')
+    print(len(parcels_gdf))
+    print('Unique Parcels in overlap calc Parcel Layer')
+    print(len(set(parcels_gdf['LOC_ID'])))
 
     return parcels_gdf
     
