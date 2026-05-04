@@ -581,7 +581,3 @@ def zoning_stats(muni):
     zone_ald_use_share['pct'] = zone_ald_use_share['Shape_Area']/total_area
 
     return zone_ald_use_share
-    
-
-
-

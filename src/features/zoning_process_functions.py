@@ -140,7 +140,7 @@ def zoning_merge(zoning_gdf, parcels_gdf):
 
 
 def structure_merge(roofprints_gdf, parcels_gdf):
-    from src.features.indicator_functions import calculate_overlap
+    #from src.features.indicator_functions import calculate_overlap
     #Roofprints filtered to primary structures
     print("Total Rows in Roofprints")
     print(len(roofprints_gdf['LOC_ID_bld']))
