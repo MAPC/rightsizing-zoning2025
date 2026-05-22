@@ -185,7 +185,7 @@ def structure_merge(roofprints_gdf, parcels_gdf):
     print(len(full_table))
     print('Unique Parcels in Building Structures')
     print(len(set(full_table['LOC_ID_bld'])))
-    parcels_gdf = parcels_gdf.merge(full_table, left_on = 'LOC_ID', right_on = 'LOC_ID_bld', how = 'outer')
+    parcels_gdf = parcels_gdf.merge(full_table, left_on = 'LOC_ID', right_on = 'LOC_ID_bld', how = 'left')
     print('Rows in final parcel layer')
     print(len(parcels_gdf))
     print('Unique Parcels in Final Parcel Layer')

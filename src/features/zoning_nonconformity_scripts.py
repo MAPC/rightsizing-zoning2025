@@ -58,7 +58,7 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     
     print(type(muni_parcels))
     # remove commercial parcels 
-    muni_parcels[luc_adjusted] = muni_parcels[luc_adjusted].str.startswith(("0", "1", "9"))
+    muni_parcels = muni_parcels[muni_parcels[luc_adjusted].str.startswith(("0", "1", "9"))]
 
     # Calculate necessary fields 
     muni_parcels['DUA'] = muni_parcels['EST_UNITS']/(muni_parcels['LOT_SIZE_G']/43560)
@@ -245,7 +245,7 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
 
     print(set(blg_shape_criteria['luc_test']))
     blg_shape_criteria['lu_conf'] = blg_shape_criteria.apply(lambda row: 
-                                                       lu_dict_test(res_type= row['ZO_ AldUse'], 
+                                                       lu_dict_test(res_type= row['ZO_AldUse'], 
                                                                     luc = row['luc_test'],
                                                                     LOC_ID= row["LOC_ID"]), 
                                                                     axis = 1)
@@ -468,7 +468,7 @@ def analysis_outputs(town_name, conf_summary = True):
 
     d1 = dict.fromkeys(all_conf_fields, (lambda x: x.sum(skipna = False)))
     d2 = dict.fromkeys(['LOC_ID'], 'count')
-    d3 = dict.fromkeys(['IMP_UNITS', 'floors', 'height'], 'mean')
+    d3 = dict.fromkeys(['EST_UNITS', 'floors', 'height'], 'mean')
     d = d1 | d2 | d3
 
 
@@ -485,7 +485,7 @@ def analysis_outputs(town_name, conf_summary = True):
     # parcel_summary = readparceloutputs
 
     #1 Which Zoning Standards lead to the most non-conformity?
-    analysis_1 = base_parcel_scores[all_conf_fields + ['LOC_ID'] + ['ZO_CODE'] + ['IMP_UNITS'] + ['height'] + ['floors']]
+    analysis_1 = base_parcel_scores[all_conf_fields + ['LOC_ID'] + ['ZO_CODE'] + ['EST_UNITS'] + ['height'] + ['floors']]
 
     summary = analysis_1.groupby('ZO_CODE').agg(d)
     summary['Municipality'] = town_name
