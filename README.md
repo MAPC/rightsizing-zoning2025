@@ -4,7 +4,7 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Code bases for zoning nonconformity analysis 2025
+Code bases for "MMC Rightsizing Zoning" zoning nonconformity analysis 2025
 
 ## Project Organization
 
@@ -12,19 +12,15 @@ Code bases for zoning nonconformity analysis 2025
 ├── LICENSE            <- Open-source license if one is chosen
 ├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
 ├── README.md          <- The top-level README for developers using this project.
-├── data
-│   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
-│   ├── processed      <- The final, canonical data sets for modeling.
-│   └── raw            <- The original, immutable data dump.
-│
 ├── docs               <- A default mkdocs project; see www.mkdocs.org for details
 │
 ├── models             <- Trained and serialized models, model predictions, or model summaries
 │
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
+├── notebooks          <- ZoningNonconformityAnalysis : Note book used to run main analysis functions
+|                         building_height_testing: used to get height and floors from LIDAR point data
+|                         final_analysis: primarily testing
+|                         full_analysistesting: testing analysis function
+|                         test: scratch notebook
 │
 ├── pyproject.toml     <- Project configuration file with package metadata for 
 │                         rightsizing_zoning_analysis and configuration for tools like black
