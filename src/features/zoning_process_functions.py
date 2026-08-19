@@ -8,7 +8,7 @@ from src.data.make_dataset import mass_mainland_crs
 
 def get_zoning_data(muni, type = 'base'):
     '''
-    input = muni name
+    input = muni name, 'base' or 'overlay'
     process = load zoning shapefile
               join zoning regs
     output = gdf with zoning data and regulations
@@ -71,6 +71,16 @@ def condo_conversion(luc, units):
     
 
 def zoning_merge(zoning_gdf, parcels_gdf):
+
+    '''
+    input = zoning gdf, parcels gdf
+    process = spatial join of zoning to parcels, 
+                if a parcel is split across zones, 
+                assign the zone with the largest share of the parcel area
+    output = original parcels gdf with zoning data joined
+                (Zone name and zoning standards table)
+
+    '''
 
     # join the parcels to the zoning, potentially cutting up parcels in split zones
     par_zon_join = parcels_gdf.overlay(zoning_gdf, how = "intersection", keep_geom_type = False)
@@ -140,6 +150,15 @@ def zoning_merge(zoning_gdf, parcels_gdf):
 
 
 def structure_merge(roofprints_gdf, parcels_gdf):
+
+    '''
+    input = roofprints gdf, parcels gdf
+    process = spatial join of roofprints to parcels, 
+                if a parcel has multiple structures, 
+                assign the max height, max floors, and sum coverage
+    output = original parcels gdf with structure data joined
+
+    '''
     #from src.features.indicator_functions import calculate_overlap
     #Roofprints filtered to primary structures
     print("Total Rows in Roofprints")
@@ -149,6 +168,14 @@ def structure_merge(roofprints_gdf, parcels_gdf):
 
     # first step is consolidating multiple structure parcels to one value per LOC_ID
     def structure_consolidation(field_name, minmaxsum):
+
+        '''
+        input = field name for a building characteristing (ie height) 
+                minmaxsum = 'max', 'min', or 'sum' to determine how to consolidate multiple structure stats on a single parcel
+        process = group roofprints by parcel ID and return a single value for each parcel
+        output = gdf with one row per parcel and the max, min, or sum of the field_name for all structures on that parcel
+        '''
+        
 
         if minmaxsum == 'max':
             # table of the loc_if idex of the max value of group
@@ -172,11 +199,11 @@ def structure_merge(roofprints_gdf, parcels_gdf):
             return print("please specificy max or min in minmax")
         
     floors = structure_consolidation('MEDIAN_stories', 'max')
-    print(len(floors))
+    #print(len(floors))
     height = structure_consolidation('MEDIAN', 'max')
-    print(len(height))
+    #print(len(height))
     coverage = structure_consolidation('ftpt_area', 'sum')
-    print(len(coverage))
+    #print(len(coverage))
 
     full_table = pd.merge(pd.merge(floors, height, on = 'LOC_ID_bld', how =  'outer'), coverage, 
                           on = 'LOC_ID_bld', how = 'outer')

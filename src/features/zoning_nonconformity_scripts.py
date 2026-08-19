@@ -20,6 +20,15 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
 
     Scores closer to 1: More non-conformity
     Scores closer to 0: Closer to zoning conformity
+
+    inputs = town name (required for land use function, zoning merge function)
+            zone_type = "base" or "overlay" (required for zoning merge function)
+            score = default True (optional, determines whether to return scores (TRUE) 
+            or report on the outputs of interim joins (FALSE))
+    Process = Join parcels to parcel database, structures, zoning, 
+                compare existing conditions 
+    outputs = gdf with non-conformity scores (if score = True)
+                table with counts of parcels, zoning, and missing data (if score = False)
     
     '''
     # function to format the luc
@@ -387,6 +396,15 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
 #def run_zoning_district_scoring():
 def test_merge(town_name, zone_type, zoning_check):
 
+    '''
+    input = town name (required for land use function, zoning merge function)
+            zone_type = "base" or "overlay" (required for zoning merge function)
+            zoning_check = True or False (optional, determines whether to return the merged gdf with zoning and parcels (zoning_check = True)or a report on whether the necessary 
+            inputs for the zoning non-conformity analysis are present (zoning_check = False))
+   output = either the output of the set up merges or a report on successfully joined fields 
+
+    '''
+
     muni_parcels = mapc.get_landuse_data(town_name)
     # print(len(muni_parcels))
 
@@ -460,6 +478,13 @@ def test_merge(town_name, zone_type, zoning_check):
 
 
 def analysis_outputs(town_name, conf_summary = True):
+
+    '''
+    tests various questions for the zoning non-conformity analysis outputs. 
+    There are some other questions in here we didn't really end up using, 
+    primarily this function was used to summarize non-conformity for all the measures
+    
+    '''
 
     all_conf_fields = ['ls_conf', 'lc_conf', 'ld_conf', 'lu_conf', 'fl_conf', 'ht_conf', 'far_conf','gfa_conf', 'du_conf', 'dua_conf']
     size_conf_fields = ['ls_conf', 'lc_conf', 'ld_conf']
@@ -539,24 +564,33 @@ def analysis_outputs(town_name, conf_summary = True):
     else :
         return analysis_output_df
 
-def zone_comparisons():
+
+def get_popular_building_styles(muni, min_units):
 
     '''
-    Are there any zones that are clearly copy-paste situations? how do their non-conformities compare?
-
+    Summarizes the parcel database by the residential building styles. 
     '''
+    def strsubset(value, start, end):
+           return value[start:end]
 
-    print("TBD")
+    parcels = mapc.get_landuse_data(muni).fillna(value={'MIN_LUCA': "xxx"})
 
-def get_popular_building_styles(muni):
+    # parcels['MIN_LUC2'] = parcels.apply(lambda row: strsubset(value = row['MIN_LUC'],
+    #                                                                        start = 0,
+    #                                                                        end = 3), 
+    #                                                  axis = 1)
+    # parcels['MAX_LUC2'] = parcels.apply(lambda row: strsubset(value = row['MAX_LUC'],
+    #                                                                        start = 0,
+    #                                                                        end = 3), 
+    #                                                  axis = 1)
+    # parcels = parcels.fillna(value = {
+    #         'MIN_LUCA': parcels['MIN_LUC2'],
+    #         'MAX_LUCA': parcels['MAX_LUC2']
+        # })
 
-    '''
-    Task 1.3 What are the 5 most common residential building styles?
-    '''
-    parcels = mapc.get_landuse_data(muni)
-
-    parcels = parcels[parcels['MIN_LUCA'].str.startswith("1")]
-    parcels = parcels[parcels['EST_UNITS']> 2]
+    parcels = parcels[parcels[luc_adjusted].str.startswith(("0", "1", "9"))]
+    #parcels = parcels[parcels['MIN_LUCA'].str.startswith("1")]
+    parcels = parcels[parcels['EST_UNITS']>= min_units]
 
     # d1 = dict.fromkeys([])
     d2 = dict.fromkeys(['LOC_ID'], 'count')
@@ -568,6 +602,13 @@ def get_popular_building_styles(muni):
 
 
 def zoning_stats(muni):
+
+    '''
+    calculates from the most the joined mmc zoning layer in the RZ geodatabase 
+    the percents of the municipality where each allowed use is by-right
+
+    '''
+    
 
     zoning_dissolved = gpd.read_file(r"\\Data-Sync\Public\DataServices\Projects\Current_Projects\Housing\Zoning-to-Built-Form\Rightsizing Zoning\Rightsizing Zoning.gdb", 
                                      layer = 'mmc_zoning_dissolved_joined')
@@ -581,3 +622,35 @@ def zoning_stats(muni):
     zone_ald_use_share['pct'] = zone_ald_use_share['Shape_Area']/total_area
 
     return zone_ald_use_share
+
+
+def pre_zoning_analysis(muni):
+
+    '''
+    pulls the latest outputs from the zoning non-conformity analysis and summarizes them by how many
+    structures were built before zoning was adopted. Summarizes by percent of muni and zone.
+    '''
+
+    rz_gdb = r"\\Data-Sync\Public\DataServices\Projects\Current_Projects\Housing\Zoning-to-Built-Form\Rightsizing Zoning\Rightsizing Zoning.gdb"
+    layer_name = muni + "_conformityscores_base"
+    base_parcel_scores = gpd.read_file(rz_gdb, layer= layer_name)
+
+    data_folder = r'C:\Users\ziacovino\OneDrive - Metropolitan Area Planning Council\Metro Mayors Housing Task Force\Phase 2 Scope of Work\Rightsizing Zoning Project\Data'
+    zone_year = pd.read_csv(os.path.join(data_folder, "zoning_years.csv"))
+
+    pre_zoning = pd.merge(base_parcel_scores, zone_year, left_on = 'CITY', right_on = 'muni_name', how = "left")
+    pre_zoning['year_num'] = pd.to_numeric(pre_zoning['YEAR_BUILT'], errors = 'coerce')
+    pre_zoning['year_flag'] = pre_zoning.apply(lambda row: 1 if row['year_num'] < row['zone_year'] else 0, axis = 1)
+
+    d1 = dict.fromkeys(['year_flag'], 'sum')
+    d2 = dict.fromkeys(['LOC_ID'], 'count')
+    d = d1|d2
+
+    pre_zoning_summary = pre_zoning.groupby('ZO_CODE').agg(d)
+    tot_par = len(set(pre_zoning['LOC_ID']))
+    pre_zoning_summary['pct_pre_zone_allmuni'] = pre_zoning_summary['year_flag']/tot_par
+    pre_zoning_summary['pct_pre_zone_perzone'] = pre_zoning_summary['year_flag']/pre_zoning_summary['LOC_ID']
+                          
+    
+
+    return pre_zoning_summary
