@@ -36,8 +36,9 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
        return value[start:end]
 
     #get most updated parcels from muni, combine with MAPC land parcel database
-    muni_parcels = mapc.get_landuse_data(town_name)
-    
+    #muni_parcels = mapc.get_landuse_data(town_name)
+    muni_parcel_gdb = os.path.join(ready_to_use_lpd, town_name + "_mapc_parcel_database.gdb")
+    muni_parcels = gpd.read_file(muni_parcel_gdb, layer = town_name + "_mapc_parcel_database")
     muni_parcels = muni_parcels.fillna(value = {
         'MIN_LUC' : "",
         'MAX_LUC' : ""
@@ -71,7 +72,7 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
 
     # Calculate necessary fields 
     muni_parcels['DUA'] = muni_parcels['EST_UNITS']/(muni_parcels['LOT_SIZE_G']/43560)
-    muni_parcels['LPU'] = (muni_parcels['LOT_SIZE_G']/43560)/muni_parcels['EST_UNITS']
+    muni_parcels['LPU'] = muni_parcels['LOT_SIZE_G']/muni_parcels['EST_UNITS'] # Now in SF per unit
 
     #Joining Building Data from LIDAR
     # building foot print geometry
@@ -301,7 +302,7 @@ def run_zoning_nonconformity(town_name, zone_type, score = True):
     def label_far (row):
         if np.isnan(row['MAXFAR']):
             return np.nan
-        elif row['MAXFAR'] < row['FAR']:
+        elif row['MAXFAR'] < row['FAR_LSG']:
             return 1
         else: 
             return 0
@@ -448,7 +449,7 @@ def test_merge(town_name, zone_type, zoning_check):
         all_conf_fields = ['ls_conf', 'lc_conf', 'ld_conf', 'lu_conf', 'fl_conf', 'ht_conf', 'du_conf', 'dua_conf', 'far_conf','gfa_conf']
         all_measure_fields = res_zoning.columns.to_list()[18:27]
         all_measure_fields.insert(3, "ZO_AldUse")
-        all_req_cond_fields = ['LOT_SIZE', 'par_lot_cov_pct', 'LOT_SIZE_G', luc_adjusted, 'MEDIAN_stories', 'MEDIAN',  'EST_UNITS', 'DUA', 'FAR', 'BLD_AREA']
+        all_req_cond_fields = ['LOT_SIZE', 'par_lot_cov_pct', 'LOT_SIZE_G', luc_adjusted, 'MEDIAN_stories', 'MEDIAN',  'EST_UNITS', 'DUA', 'FAR_LSG', 'BLD_AREA']
 
 
         

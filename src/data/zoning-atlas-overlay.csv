@@ -1,0 +1,78 @@
+ZO_CODE,ZO_NAME,MUNI_ID,MUNI,ZO_AldUse,ZO_ABBR,ZO_USETY,ZO_USEDE,MINLOTSIZE,PCTLOTCOV,LApDU,MAXFLRS,MAXHEIGHT,MAXDU,DUpAC,MAXFAR,MAX_GFA,EDITDATE,Overlay_Flag
+10FP,Floodplain District,10,Arlington,No Residential Uses Allowed,FP,4,,,,,,,,,,,7/11/2025 12:59pm,Overlay
+10IWD,Inland Wetland District,10,Arlington,No Residential Uses Allowed,IWD,4,,,,,,,,,,,7/11/2025 12:59pm,Overlay
+10MBMF,Massachusetts Avenue/Broadway Multi-Family ,10,Arlington,More than Eight Units,MBMF,1,,,,,4,52,,,,,7/11/2025 1:32pm,Overlay
+10NMF,Neighborhood Multi-Family Overlay District,10,Arlington,More than Eight Units,NMF,1,,,,,3,35,,,,,7/11/2025 1:33pm,Overlay
+40BZ,Billboard Zoning Overlay District,40,Braintree,No Residential Uses Allowed,BZ,4,,,,,,,,,,,7/11/2025 2:57pm,Overlay
+40MCMOD 1,MBTA Communities Multi-Family Overlay District 1,40,Braintree,More than Eight Units,MCMOD 1,3,,25000,30%,,4,50,325,30,,,8/8/2025 2:09pm,Overlay
+40MCMOD 2,MBTA Communities Multi-Family Overlay District 2 ,40,Braintree,More than Eight Units,MCMOD 2,3,,25000,30%,,4,50,325,30,,,8/8/2025 2:08pm,Overlay
+40MCMOD 3,MBTA Communities Multi-Family Overlay District 3,40,Braintree,More than Eight Units,MCMOD 3,3,,5000,20%,,4,50,150,35,,,8/8/2025 2:09pm,Overlay
+40MCMOD 4,MBTA Communities Multi-Family Overlay District 4,40,Braintree,More than Eight Units,MCMOD 4,3,,5000,20%,,5,60,150,40,,,8/8/2025 2:09pm,Overlay
+40VZ,Village Zoning Overlay District,40,Braintree,No Residential Uses Allowed,VZ,2,,5000,90%,,3,45,,,,,7/11/2025 1:59pm,Overlay
+46FHTOR,Fisher Hill Town-Owned Reservoir Mixed Income Housing Overlay,46,Brookline,No Residential Uses Allowed,FHTOR,1,,,,,,45,4,,0.4,,8/8/2025 2:18pm,Overlay
+46FOD,Floodplain Overlay District,46,Brookline,No Residential Uses Allowed,FOD,,,,,,,,,,,,,Overlay
+46L-0.5(CL),Cleveland Circle Hotel Overlay District,46,Brookline,No Residential Uses Allowed,L-0.5(CL),,,,,,,0,,,0,,8/8/2025 2:22pm,Overlay
+46MBTA-CA,MBTA-CA Multifamily Overlay District Zoning,46,Brookline,More than Eight Units,MBTA-CA,1,,,70%,,7,80,,,2.5,,8/8/2025 2:16pm,Overlay
+49GJPOD,Grand Junction Pathway Overlay District,49,Cambridge,More than Eight Units,GJPOD,,,,,,,90,,,2.5,,7/22/2025 1:29pm,Overlay
+49HS,Harvard Square,49,Cambridge,More than Eight Units,HS,,,,,,,60,,,,,7/22/2025 12:58pm,Overlay
+49MMRMI,Mass and Main Residential Mixed Income Subdistrict,49,Cambridge,More than Eight Units,MMRMI,,,,,,,195,,,6.5,,7/22/2025 1:20pm,Overlay
+57AROD,Airport Related Overlay District,57,Chelsea,No Residential Uses Allowed,AROD,4,,,,,,,,,,,7/16/2025 12:21pm,Overlay
+57FOD,Floodplain Overlay District,57,Chelsea,No Residential Uses Allowed,FOD,,,,,,,,,,,,,Overlay
+57GASGOD,Gerrish Avenue Smart Growth Overlay District,57,Chelsea,More than Eight Units,GASGOD,1,40R district -- with two subdistricts. Data reflects the highest dimensions (subdistrict 2) ,5000,50%,,4,45,,20,2,,8/7/2025 11:13am,Overlay
+57IPOD,"	Interim Planning Overlay District",57,Chelsea,No Residential Uses Allowed,IPOD,4,Temporary overlay (not exceeding two years) that applies a special permit or review to all underlying uses ,,,,,,,,,,7/16/2025 2:06pm,Overlay
+57MUOD,Mixed-Use Overlay District,57,Chelsea,More than Eight Units,MUOD,3,,43560,,,4,100,,70,,,8/7/2025 11:44am,Overlay
+57RPOD,Residential Planned Overlay District,57,Chelsea,No Residential Uses Allowed,RPOD,1,"Foster a range of housing opportunities and promote compact development of a high quality design, preservation of open space and enhanced pedestrian access to employment and public transportation. Within the RPOD, there shall be established three sub-districts referred to as RPOD-1, RPOD-2, and RPOD-3. Through special permitted per parcel. ",0,0%,,0,0,,0,0,,7/16/2025 2:25pm,Overlay
+57SCIPOD,Shopping Center Interim Planning Overlay District,57,Chelsea,No Residential Uses Allowed,SCIPOD,3,,,,,,,,,,,7/16/2025 2:05pm,Overlay
+57SGOD,Central Avenue Smart Growth Overlay District,57,Chelsea,More than Eight Units,SGOD,1,40R district -- with two subdistricts. ,5000,75%,350,6,75,,20,2.75,,8/7/2025 11:40am,Overlay
+57TCOD,Transit Community Overlay District,57,Chelsea,More than Eight Units,TCOD,3,3A MBTA Community District,5000,50%,950,7,,,40,,,7/16/2025 3:13pm,Overlay
+57WCOD,Wireless Communication Facilities Overlay District,57,Chelsea,No Residential Uses Allowed,WCOD,4,,,,,,,,,,,7/16/2025 2:08pm,Overlay
+57WIOD,Waterfront Industrial Overlay District,57,Chelsea,No Residential Uses Allowed,WIOD,4,,,,,,,,,,,7/16/2025 12:19pm,Overlay
+93IOD,Interim Overlay District,93,Everett,More than Eight Units,IOD,4,,,,,,,,,,,8/6/2025 3:50pm,Overlay
+93RCOD,Resort Casino Overlay District,93,Everett,No Residential Uses Allowed,RCOD,4,Gaming establishment,0,,,,,,,,,8/6/2025 3:53pm,Overlay
+93ROD,River Front Overlay District,93,Everett,More than Eight Units,ROD,3,Multi-Family SP ,,,,5,65,,70,2.25,,7/8/2025 9:28am,Overlay
+93TOD,Telecommunications Overlay District,93,Everett,No Residential Uses Allowed,TOD,4,No Residential,,0%,,0,0,,,0,,8/6/2025 3:37pm,Overlay
+163O-FP,Floodplain Overlay District,163,Lynn,No Residential Uses Allowed,O-FP,4,,,,,,,,,,,8/6/2025 4:29pm,Overlay
+165MCMOD  MC HIGH RISE,MBTA Communities Multi-Family Overlay District - Malden Center High Rise,165,Malden,More than Eight Units,MCMOD  MC HIGH RISE,3,3A Overlay,5000,50%,235,10,,,,,,8/6/2025 4:38pm,Overlay
+165MCMOD  MD1,MBTA Communities Multi-Family Overlay District - Medium Density 1,165,Malden,More than Eight Units,MCMOD  MD1,3,3A Overlay,18750,40%,1200,4,,,,,,8/6/2025 4:38pm,Overlay
+165MCMOD  MD2,MBTA Communities Multi-Family Overlay District - Medium Density 2,165,Malden,More than Eight Units,MCMOD  MD2,3,3A Overlay,18750,40%,1760,4,,,,,,8/6/2025 4:38pm,Overlay
+165MCMOD MC,MBTA Communities Multi-Family Overlay District - Malden Center,165,Malden,More than Eight Units,MCMOD MC,3,3A Overlay,5000,50%,525,7,,,,,,8/6/2025 4:38pm,Overlay
+165MCMOD OG,MBTA Communities Multi-Family Overlay District - Oak Grove,165,Malden,More than Eight Units,MCMOD OG,3,3A Overlay,4000,50%,725,3,,,,,,8/6/2025 4:38pm,Overlay
+165MEOD,Marijuana Establishment Overlay District,165,Malden,No Residential Uses Allowed,MEOD,4,,,,,,,,,,,7/8/2025 3:30pm,Overlay
+165MMU - 1,Mandatory Mixed-Use Overlay District,165,Malden,More than Eight Units,MMU - 1,3,3A Mixed Use,5000,50%,400,7,,,,,,7/8/2025 3:31pm,Overlay
+176PDD,Planned Development District,176,Medford,No Residential Uses Allowed,PDD,3,Residential and Commercial,,,,,,,,,,7/8/2025 4:11pm,Overlay
+178,Floodplain District,178,Melrose,No Residential Uses Allowed,,4,"Land in special flood hazard areas designated as Zones A and AE on the Middlesex
+County Flood Insurance Rate Map (FIRM) issued by the Federal Emergency Management Agency (FEMA)
+for the administration of the National Flood Insurance Program.",0,0%,,0,0,,,0,,6/18/2025 3:20pm,Overlay
+178RCOD,Rail Corridor Overlay District,178,Melrose,More than Eight Units,RCOD,3,"Multifamily housing and mixed-use developments that are
+pedestrian and transit oriented along the commuter rail train tracks.",10000,0%,,4,50,,35,1.5,,8/8/2025 11:35am,Overlay
+178SGD,Smart Growth District,178,Melrose,More than Eight Units,SGD,3,"Multifamily housing and mixed-use developments that are pedestrian and
+transit oriented.",21780,50%,,,60,,35,1.25,,6/18/2025 3:08pm,Overlay
+207MRT,Village Center Overlay District - Multi Residence Transit,207,Newton,Three Family,MRT,3,"Mixed Use, Transit Oriented, Multi- Family 3-4 units",,,,2.5,40,4,,,,6/19/2025 4:06pm,Overlay
+207VC2,Village Center Overlay District - Village Center 2,207,Newton,More than Eight Units,VC2,3,"Moderate Scale Mixed Uses, Multi-Family 3+ Units",,,,3.5,58,,,,,6/19/2025 4:05pm,Overlay
+207VC3,Village Center Overlay District - Village Center 3,207,Newton,More than Eight Units,VC3,3,"Large Scale Mixed Uses, Multi-Family 3+ Units",,,,4.5,71,,,,,6/19/2025 3:54pm,Overlay
+243FPOD,Flood Plain Overlay District,243,Quincy,No Residential Uses Allowed,FPOD,4,Flood Plain Overlay,,,,,,,,,,6/19/2025 9:20am,Overlay
+243MCMOD,MBTA Community Multi-Family Overlay District,243,Quincy,More than Eight Units,MCMOD,3,Multi-family - high density,10000,,325,8,,,,,,6/19/2025 10:10am,Overlay
+243TOD,Transit Oriented Districts,243,Quincy,More than Eight Units,TOD,3,Transit Oriented,43560,,325,8,,,,,,6/19/2025 9:56am,Overlay
+248OROD B,Overlook Ridge Overlay District - Subdistrict B,248,Revere,More than Eight Units,OROD B,3,Mixed Use,,50%,,8,190,,,3,,6/19/2025 2:13pm,Overlay
+248RROD,Revere Riverfront Overlay District,248,Revere,More than Eight Units,RROD,3,Waterfront Mixed Use District,,,,6,75,,,1.75,,6/19/2025 2:56pm,Overlay
+248SDOD,Suffolk Downs Overlay District,248,Revere,More than Eight Units,SDOD,3,Apartment Dwellings,,,,,100,,,2.5,,8/13/2025 5:40pm,Overlay
+248SGODs,Smart Growth Overlay Districts,248,Revere,More than Eight Units,SGODs,3,Smart Growth,,,,,,,20,,,6/19/2025 3:08pm,Overlay
+248WTODOD,Wonderland Transit-Oriented Overlay District,248,Revere,More than Eight Units,WTODOD,3,Commercial and Residential Development,25000,20%,,16,160,,,3.6,,8/8/2025 1:06pm,Overlay
+274AH,Affordable Housing ,274,Somerville,More than Eight Units,AH,1,"To permit the development of buildings that provide all dwelling units as affordable dwelling units. To permit additional residential use intensity, additional building height, and additional tolerance for dimensional standards to incentive the development of affordable dwelling units.",,70%,,7,86,,,,0,7/16/2025 11:34am,Overlay
+274FP,Floodplains,274,Somerville,No Residential Uses Allowed,FP,4,To appropriately limit development within floodways to reduce obstructions to flood flows and reduce flooding impacts on the community.,,,,,,,,,,7/16/2025 11:40am,Overlay
+274MPD,Master Planned Development ,274,Somerville,No Residential Uses Allowed,MPD,3,"To require a Master Plan Special Permit for all development requiring subdivision.
+
+To require a Master Plan Special Permit for the coordinated development of two or more lots.
+
+To permit real property that is not subject to an approved Master Plan Special Permit to develop by Special Permit.",,,,,,,,,,7/16/2025 11:42am,Overlay
+274SB,Small Business,274,Somerville,No Residential Uses Allowed,SB,2,"To permit neighborhood- and community-serving commercial uses providing for the frequently recurring needs of local residents for real property in underlying residential districts.
+
+To use discretion in permitting the occupancy of commercial spaces over five thousand (5,000) square feet in leasable floor area for real property in underlying residential districts.
+
+To require multiple ground story commercial spaces for real property in underlying mid-rise, high-rise, and commercial districts.",,,,,,,,,,7/16/2025 11:37am,Overlay
+314ALOD,Assisted Living Overlay District,314,Watertown,More than Eight Units,ALOD,4,,10000,35%,,3,,,,1,,8/6/2025 4:58pm,Overlay
+314AODD,Arsenal Overlay Development District,314,Watertown,No Residential Uses Allowed,AODD,2,,0,0%,,,,,,,,7/30/2025 11:33am,Overlay
+314R/SOD,Religious / School Building Overlay District,314,Watertown,Two Family,R/SOD,4,,,,,,,,,,,7/31/2025 4:15pm,Overlay
+314RD,Limited Redevelopment District,314,Watertown,More than Eight Units,RD,2,,,,,,,,,,,7/8/2025 5:09pm,Overlay
+314TODO,Transit Oriented Development Overlay District,314,Watertown,More than Eight Units,TODO,3,,,,,,,,,,,7/8/2025 5:05pm,Overlay
+346SDOD,Special Development Overlay District,346,Winthrop,More than Eight Units,SDOD,3,"Encourage the redevelopment and reuse of existing nonresidential properties in a manner compatible with surrounding neighborhoods or commercial areas; to prevent disinvestment and deterioration of nonresidential buildings that have become obsolete for their original purposes by allowing other economic uses, including but not limited to residential uses",10000,40%,,,35,,,1.25,,8/12/2025 2:32pm,Overlay

@@ -15,6 +15,7 @@ mass_mainland_crs = "EPSG:26986"
 #once land parcel database is updated, update this file path. 
 #needs to be a folder path where the folder contains a list of CSVs with town names
 mapc_lpd_folder = os.path.join(datasets_dir, 'Parcel_DB\Data\LPDB.Q2_2025\parcels_by_muni')
+ready_to_use_lpd = os.path.join(datasets_dir, 'Parcel_DB\Data\Ready_to_Use_Parcels')
 
 bldg_val_p_sf = 'BLDGV_PSF'
 bldg_land_value_ratio = 'BLDLND_RAT'

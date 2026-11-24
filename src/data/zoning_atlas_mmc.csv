@@ -1,0 +1,312 @@
+ZO_CODE,ZO_NAME,MUNI_ID,MUNI,ZO_AldUse,ZO_ABBR,ZO_USETY,ZO_USEDE,MINLOTSIZE,PCTLOTCOV,LApDU,MAXFLRS,MAXHEIGHT,MAXDU,DUpAC,MAXFAR,MAX_GFA,EDITDATE
+10B1,Neighborhood Office District,10,Arlington,No Residential Uses Allowed,B1,3,"Single-family detached dwelling, two-family dwelling, or duplex house; public service and institutional use; small scale offices and businesses",0,,0,0,0,,,0,,6/18/2025 3:24pm
+10B2,Neighborhood Business District,10,Arlington,No Residential Uses Allowed,B2,3,"Single-family detached dwelling, two-family dwelling, or duplex house; public service and institutional use; small scale offices and businesses, and personal services",0,,0,0,0,,,0,,6/18/2025 3:24pm
+10B2A,Major Business District,10,Arlington,No Residential Uses Allowed,B2A,3,Provide retail and service to a large neighborhood where motor vehicle traffic is common; housing is permitted at low to medium density.,0,,0,0,0,,,0,,6/18/2025 3:24pm
+10B3,Village Business District,10,Arlington,No Residential Uses Allowed,B3,3,"Retail, service and office uses catering to convenienc and comparison shoppers oriented to pedestrian traffic; multi-use development is encouraged",0,,0,0,0,,,0,,6/18/2025 3:24pm
+10B4,Vehicular Oriented Business District,10,Arlington,No Residential Uses Allowed,B4,3,"Business oriented to motor vehicle traffic, including sales and servicing.",0,,0,0,0,,,0,,6/18/2025 3:24pm
+10B5,Central Business District,10,Arlington,No Residential Uses Allowed,B5,3,"Arlington Center businesses: retail, service, office; oriented to pedestrian traffic.",0,,0,0,0,,,0,,6/18/2025 3:24pm
+10I,Industrial,10,Arlington,No Residential Uses Allowed,I,2,"Allowed uses are those that require manufacture, assembly, processing, or handling of materials which might cause traffic, noise, appearance, odor, or hazards which might be disruptive to routine residential or business uses.",0,,,0,0,,,0,,6/18/2025 3:24pm
+10MU,Multi-Use,10,Arlington,No Residential Uses Allowed,MU,3,Large scale development on an acre or more - requires special permit design review.,0,0%,,,0,,,0,,6/18/2025 3:24pm
+10OS,Open Space,10,Arlington,No Residential Uses Allowed,OS,4,"Parcels under jurisdiction of Park and Recreation and Conservation Commissions, the ARB, DCR, and MBTA; structures are accessory to use.",,,,,,,,,,5/30/2025 4:39pm
+10PUD,Planned Unit Development,10,Arlington,Two Family,PUD,1,Large scale multi-use development,200000,,,,85,,,0.8,,5/30/2025 4:39pm
+10R0,Large Lot Single-Family District,10,Arlington,Single Family,R0,1,"Single-family detached dwelling, other permitted uses",9000,35%,,2.5,35,,,,,5/30/2025 4:23pm
+10R1,Single-Family District,10,Arlington,Single Family,R1,3,Single-family detached dwelling,6000,35%,,2.5,35,,,,,5/30/2025 4:23pm
+10R2,Two-Family District,10,Arlington,Two Family,R2,3,"Single-family detached dwelling, two-family dwelling, or duplex house",6000,35%,,2.5,35,,,,,6/3/2025 10:20am
+10R3,Three-Family District,10,Arlington,Two Family,R3,1,"Single-family detached dwelling, two-family dwelling, or duplex house, three-family dwelling, townhouse",5000,,,3,35,,,0.75,,6/3/2025 10:18am
+10R4,Townhouse Districts,10,Arlington,Two Family,R4,3,"Single-family detached dwelling, two-family dwelling, or duplex house",6000,35%,,2.5,35,,,,,6/3/2025 10:20am
+10R5,Apartment District/Low Density,10,Arlington,Two Family,R5,3,"Single-family detached dwelling, two-family dwelling, or duplex house",6000,,,3,35,,,0.8,,6/3/2025 10:18am
+10R6,Apartment District/Medium Density,10,Arlington,Two Family,R6,3,"Single-family detached dwelling, two-family dwelling, or duplex house",5000,,,3,35,,,0.8,,6/3/2025 10:21am
+10R7,Apartment District/High Density,10,Arlington,Two Family,R7,3,"Single-family detached dwelling, two-family dwelling, or duplex house",20000,,550,5,60,,,1.5,,6/3/2025 10:21am
+10T,Transportation,10,Arlington,No Residential Uses Allowed,T,2,"Bus terminals, open space use, support of the Minuteman Bikeway",0,,,0,0,,,0.35,,6/17/2025 2:37pm
+40BWLD,Braintree-Weymouth Land District,40,Braintree,More than Eight Units,BWLD,3,Small mixed-use area that spans two municipalities: (2011) https://braintreema.gov/DocumentCenter/View/257/Adopted-Braintree-Zoning-Ordinance-PDF?bidId= ,5000,90%,,2,30,,19,,,7/16/2025 3:44pm
+40Cluster1,Cluster I,40,Braintree,Two Family,Cluster1,1,,217800,50%,43560,2,35,,,,,6/2/2025 2:47pm
+40Cluster2,Cluster II,40,Braintree,Two Family,Cluster2,1,,217800,50%,25000,2,35,,,,,6/2/2025 2:47pm
+40Cluster3,Cluster III,40,Braintree,Two Family,Cluster3,1,,217800,50%,15000,2,35,,,,,6/2/2025 2:47pm
+40COMM,Commercial,40,Braintree,No Residential Uses Allowed,COMM,2, ,0,0%,,0,0,,,,,6/3/2025 5:39pm
+40GBD,General Business,40,Braintree,No Residential Uses Allowed,GBD,2, ,0,0%,,0,0,,,,,6/3/2025 5:39pm
+40HBD,Highway Business,40,Braintree,No Residential Uses Allowed,HBD,2, ,0,0%,,0,0,,,,,6/3/2025 5:39pm
+40OpenSpace,Open Space and Conservancy,40,Braintree,No Residential Uses Allowed,OpenSpace,4, ,0,0%,,0,0,,,,,6/3/2025 5:39pm
+40ResA,Residence A,40,Braintree,Single Family,ResA,1, ,25000,70%,,3,35,,,,,6/2/2025 3:01pm
+40ResB,Residence B,40,Braintree,Single Family,ResB,1, ,15000,70%,,3,35,,,,,6/2/2025 3:01pm
+40ResC,Residence C,40,Braintree,More than Eight Units,ResC,1, ,43560,65%,5000,3,35,,,,,4/7/2026 4:00pm
+46F-1.0,Three Family,46,Brookline,Three Family,F-1.0,1,Multi-family low density (3-8 D.U./acre),5000,,,,40,,,1,,6/2/2025 4:49pm
+46G-(DP),General Business,46,Brookline,Four to Eight Units,G-(DP),3,Davis Path ,,,,,65,,,1,,8/7/2025 9:09am
+46G-1.0,General Business,46,Brookline,Four to Eight Units,G-1.0,3,,,,,,40,,,1,,8/7/2025 9:09am
+46G-1.75,General Business,46,Brookline,Four to Eight Units,G-1.75,3,,,,,,45,,,1.75,,8/7/2025 9:09am
+46G-1.75(CC),General Business,46,Brookline,Four to Eight Units,G-1.75(CC),3,Coolidge Corner,,,,,50,,,2,,8/7/2025 9:09am
+46G-1.75(LSH),General Business,46,Brookline,Four to Eight Units,G-1.75(LSH),3,Limited Service Hotel ,,,,8,90,,,3.3,,8/7/2025 9:09am
+46G-1.75(WS),General Business,46,Brookline,Four to Eight Units,G-1.75(WS),3,Washington Square ,,,,,50,,,2,,8/7/2025 9:09am
+46G-2.0,General Business,46,Brookline,Four to Eight Units,G-2.0,3,,,,,,45,,,2,,8/7/2025 9:09am
+46G-2.0(CA),General Business,46,Brookline,Four to Eight Units,G-2.0(CA),3,Commonwealth Avenue ,,,,,50,,,2,,8/7/2025 9:09am
+46GMR-2.0,General Business and Medical Research,46,Brookline,Four to Eight Units,GMR-2.0,3,General Business and Medical Research ,,,,,115,,,2,,8/7/2025 9:09am
+46H-MS,,46,Brookline,Four to Eight Units,H-MS,3,Harvard Street Form Based Zone,,,,4,48,,,,,12/12/2025 3:34pm
+46H-MS-O,,46,Brookline,Four to Eight Units,H-MS-O,3,Harvard Street Form Based Zone,,,,4,48,,,,,12/12/2025 3:35pm
+46H-MSN,,46,Brookline,Four to Eight Units,H-MSN,3,Harvard Street Form Based Zone,,,,2.5,35,,,,,12/12/2025 3:36pm
+46H-MST,,46,Brookline,Four to Eight Units,H-MST,3,Harvard Street Form Based Zone,,,,4,48,,,,,12/12/2025 3:34pm
+46I-1.0,Industrial Business,46,Brookline,Four to Eight Units,I-1.0,3,Industrial Services,,,,,40,,,1,,12/12/2025 2:55pm
+46I-1.0(EISD),Industrial Business,46,Brookline,Four to Eight Units,I-1.0(EISD),3,Industrial Services,13600,,,,40,,,1,,12/12/2025 2:57pm
+46L-0.5,Local Business,46,Brookline,Four to Eight Units,L-0.5,3, ,,,,,40,,,0.5,,8/7/2025 9:09am
+46L-0.5(CL),Local Business,46,Brookline,Four to Eight Units,L-0.5(CL),3,Cleveland Circle Local Business District,,,,,40,,,0.5,,12/12/2025 2:56pm
+46L-1.0,Local Business,46,Brookline,Four to Eight Units,L-1.0,3,,,,,,40,,,1,,8/7/2025 9:09am
+46M-0.5,Apartment House,46,Brookline,Four to Eight Units,M-0.5,1,,5000,,,,35,,,0.5,,6/6/2025 4:36pm
+46M-1.0,Apartment House,46,Brookline,Four to Eight Units,M-1.0,1,,5000,,,,40,,,1,,6/6/2025 4:41pm
+46M-1.0(CAM),Apartment House,46,Brookline,Four to Eight Units,M-1.0(CAM),1,,5000,,,,40,,,1,,6/6/2025 4:42pm
+46M-1.5,Apartment House,46,Brookline,Four to Eight Units,M-1.5,1,,,,,,50,,,1.5,,8/7/2025 9:09am
+46M-2.0,Apartment House,46,Brookline,Four to Eight Units,M-2.0,1,,,,,,50,,,2,,8/7/2025 9:09am
+46M-2.5,Apartment House,46,Brookline,Four to Eight Units,M-2.5,1,,,,,,50,,,2.5,,8/7/2025 9:09am
+46O-1.0,Business & Professional Office,46,Brookline,Two Family,O-1.0,3,,,,,,40,,,1,,8/7/2025 9:09am
+46O-2.0(CH),Business & Professional Office,46,Brookline,Two Family,O-2.0(CH),3,,,,,,50,,,2,,8/7/2025 9:09am
+46S-0.5P,Single Family,46,Brookline,Single Family,S-0.5P,1,,15000,,,,35,,,0.25,,6/17/2025 4:20pm
+46S-0.75P,Single Family,46,Brookline,Single Family,S-0.75P,1,,7000,,,,35,,,0.35,,6/17/2025 4:20pm
+46S-4,Single Family,46,Brookline,Single Family,S-4,1,,4000,,,,35,,,1,,6/2/2025 4:02pm
+46S-7,Single Family,46,Brookline,Single Family,S-7,1,,7000,,,,35,,,0.35,,6/2/2025 4:02pm
+46S-10,Single Family,46,Brookline,Single Family,S-10,1,,10000,,,,35,,,0.3,,6/2/2025 4:02pm
+46S-15,Single Family,46,Brookline,Single Family,S-15,1,,15000,,,,35,,,0.25,,6/2/2025 4:04pm
+46S-25,Single Family,46,Brookline,Single Family,S-25,1,,25000,,,,35,,,0.2,,6/2/2025 4:03pm
+46S-40,Single Family,46,Brookline,Single Family,S-40,1,,40000,,,,35,,,0.15,,6/2/2025 4:03pm
+46SC-7,Single Family & Converted Two Family,46,Brookline,Two Family,SC-7,1,,7000,,,,35,,,0.5,,6/2/2025 4:41pm
+46SC-10,Single Family & Converted Two Family,46,Brookline,Two Family,SC-10,1,,10000,,,,35,,,0.5,,6/2/2025 4:41pm
+46T-5,Two Family & Attached Single Family,46,Brookline,Two Family,T-5,1,,5000,,,,35,,,1,,6/2/2025 4:43pm
+46T-5(NH),Two Family & Attached Single-Family,46,Brookline,Two Family,T-5(NH),1,North Harvard Street,5000,,,2.5,35,,,1,,6/2/2025 4:46pm
+46T-6,Two Family & Attached Single Family,46,Brookline,Two Family,T-6,1,,6000,,,,35,,,0.75,,6/2/2025 4:43pm
+49ASD,Ames Street District,49,Cambridge,More than Eight Units,ASD,3,"residential, institutional, office and laboratories, retail, hotel, biotechnology manufacturing, light industry",0,,,,400,,,,5073000,6/4/2025 5:50pm
+49BA,Business A District,49,Cambridge,More than Eight Units,BA,3,"residential, most institutional, office and laboratories, retail uses",0,,,6,75,,,,,6/4/2025 5:45pm
+49BA-1,Business A-1 District,49,Cambridge,More than Eight Units,BA-1,3,"residential, most institutional, office and laboratories, retail uses",0,,,6,75,,,,,6/4/2025 5:45pm
+49BA-2,Business A-2 District,49,Cambridge,More than Eight Units,BA-2,3,"residential, most institutional, office and laboratories, retail uses",0,,,6,75,,,,,6/4/2025 5:45pm
+49BA-3,Business A-3 District,49,Cambridge,More than Eight Units,BA-3,3,"residential, most institutional, office and laboratories, retail uses",0,,,6,75,,,,,6/4/2025 5:45pm
+49BA-4,Business A-4 District,49,Cambridge,More than Eight Units,BA-4,3,"residential, most institutional, office and laboratories, retail uses",0,,,6,75,,,,,6/4/2025 5:45pm
+49BA-5,Business A-5 District,49,Cambridge,More than Eight Units,BA-5,3,"residential, most institutional, office and laboratories, retail uses",0,,,7,85,,,,,6/4/2025 5:45pm
+49BB,Business B District ,49,Cambridge,More than Eight Units,BB,3,"residential, most institutional, office and laboratories, retail uses",0,,,7,85,,,,,6/4/2025 5:45pm
+49BB-1,Business B-1 District,49,Cambridge,More than Eight Units,BB-1,3,"residential, most institutional, office and laboratories, retail uses",0,,,8,95,,,,,6/4/2025 5:45pm
+49BB-2,Business B-2 District,49,Cambridge,More than Eight Units,BB-2,3,"residential, most institutional, office and laboratories, retail uses",0,,,6,75,,,,,6/4/2025 5:45pm
+49BC,Business C District,49,Cambridge,More than Eight Units,BC,3,"residential, most institutional, office and laboratories, retail uses",0,,,6,75,,,,,6/4/2025 5:45pm
+49C-1,Residence C-1 District,49,Cambridge,More than Eight Units,C-1,3,"1, 2 family,multifamily, townhouse",0,,,4,45,,,,,6/4/2025 5:45pm
+49C-1A,Residence C-1A District,49,Cambridge,More than Eight Units,C-1A,3,"1, 2 family, multifamily, townhouse, some institutional",0,,,6,75,,,,,6/4/2025 5:45pm
+49C-2,Residence C-2 District,49,Cambridge,More than Eight Units,C-2,3,"1,2 family, multifamily, townhouse, some institutional",0,,,7,85,,,,,6/4/2025 5:45pm
+49C-2A,Residence C-2A District,49,Cambridge,More than Eight Units,C-2A,3,"1,2 family, multifamily, townhouse, some institutional",0,,,6,75,,,,,6/4/2025 5:45pm
+49C-2B,Residence C-2B District,49,Cambridge,More than Eight Units,C-2B,3,"1,2 family, multifamily, townhouse, some institutional",0,,,6,75,,,,,6/4/2025 5:45pm
+49C-3,Residence C-3 District,49,Cambridge,More than Eight Units,C-3,1,"1,2 family, multifamily, townhouse, some institutional",0,,,10,120,,,,,6/4/2025 5:45pm
+49C-3A,Residence C-3A District,49,Cambridge,More than Eight Units,C-3A,1,"1,2 family, multifamily, townhouse, some institutional",0,,,10,120,,,,,6/4/2025 5:45pm
+49C-3B,Residence C-3B District,49,Cambridge,More than Eight Units,C-3B,1,"1,2 family, multifamily, townhouse, some institutional",0,,,10,120,,,,,6/4/2025 5:45pm
+49CRDD,Cambridgeport Revitalization Development District,49,Cambridge,More than Eight Units,CRDD,3,"residential, office and laboratories, retail, hotel and entertainment, biotechnology manufacturing, light industry",0,,,,205,400,,4.4,725000,6/4/2025 5:58pm
+49IA,Industry A District,49,Cambridge,More than Eight Units,IA,3,"residential, institutional,  office and laboratories, some retail, light industrial",0,,,6,75,,,,,6/4/2025 5:45pm
+49IA-1,Industry A-1 District,49,Cambridge,More than Eight Units,IA-1,3,"residential, institutional,  office and laboratories, some retail, light industrial",0,,,6,75,,,,,6/4/2025 5:45pm
+49IA-2,Industry A-2 District,49,Cambridge,More than Eight Units,IA-2,3,"residential, institutional,  office and laboratories, some retail, light industrial",0,,,6,75,,,,,6/4/2025 5:45pm
+49IB,Industry B District,49,Cambridge,More than Eight Units,IB,3,"residential, institutional, office and laboratories, some retail, light and heavy industrial",0,,,10,120,,,,,6/4/2025 5:45pm
+49IB-1,Industry B-1 District ,49,Cambridge,More than Eight Units,IB-1,3,"residential, institutional,  office and laboratories, some retail, light industrial",0,,,6,75,,,,,6/4/2025 5:45pm
+49IB-2,Industry B-2 District,49,Cambridge,More than Eight Units,IB-2,3,"residential, institutional, office and laboratories, some retail, light and heavy industrial",0,,,6,75,,,,,6/4/2025 5:45pm
+49MXD,Cambridge Center Mixed Use Development,49,Cambridge,More than Eight Units,MXD,3,"residential, institutional, office and laboratories, retail, hotel, biotechnology manufacturing, light industry",0,,,,400,,,8,5073000,6/4/2025 5:47pm
+49NP,"North Point Residence, Office and Business District",49,Cambridge,More than Eight Units,NP,3,"residential, institutional, office and laboratories, retail, hotel, biotechnology manufacturing, light industry",0,,,,45,,,,,6/4/2025 6:01pm
+49O-1,Office 1 District,49,Cambridge,More than Eight Units,O-1,3,"residential, most institutional, office and laboratories",0,,,6,75,,,,,6/4/2025 5:45pm
+49O-2,Office 2 District,49,Cambridge,More than Eight Units,O-2,3,"residential, most institutional, office and laboratories",0,,,6,75,,,,,6/4/2025 5:45pm
+49O-2A,Office 2A District,49,Cambridge,More than Eight Units,O-2A,3,"residential, most institutional, office and laboratories",0,,,7,85,,,,,6/4/2025 5:45pm
+49O-3,Office 3 District,49,Cambridge,More than Eight Units,O-3,3,"residential, most institutional, office and laboratories",0,,,10,120,,,,,6/4/2025 5:45pm
+49O-3A,Office 3A District,49,Cambridge,More than Eight Units,O-3A,3,"residential, most institutional, office and laboratories",0,,,10,120,,,,,6/4/2025 5:45pm
+49OS,Open Space District,49,Cambridge,No Residential Uses Allowed,OS,4,"Public parks, recreation facilities, other public facilities",0,,,0,0,,,,,6/4/2025 5:45pm
+49SD-1,Special District 1,49,Cambridge,More than Eight Units,SD-1,3,"similar to IA-1, with exceptions",0,,,6,120,,,,,6/4/2025 6:36pm
+49SD-2,Special District 2,49,Cambridge,More than Eight Units,SD-2,3,Multi Family,0,,,4,45,,,,,6/4/2025 6:05pm
+49SD-3,Special District 3,49,Cambridge,More than Eight Units,SD-3,3,"residential, office and laboratories, limited retail",20000,,,6,75,,,0.45,782500,6/4/2025 6:10pm
+49SD-4,Special District 4,49,Cambridge,More than Eight Units,SD-4,1,similar to O2 with exceptions,0,,,6,75,,,,900000,6/4/2025 6:20pm
+49SD-4A,Special District 4A,49,Cambridge,More than Eight Units,SD-4A,3,similar to O2 with exceptions,0,,,6,75,,,,900000,6/4/2025 6:33pm
+49SD-5,Special District 5,49,Cambridge,More than Eight Units,SD-5,3,similar to O2 with exceptions,0,,,6,85,,,,,6/4/2025 6:34pm
+49SD-6,Special District 6,49,Cambridge,More than Eight Units,SD-6,3,similar to RC-3 with exceptions,0,,,10,100,,,,,6/4/2025 6:19pm
+49SD-7,Special District 7,49,Cambridge,More than Eight Units,SD-7,3,Similar to B-B with exceptions,0,,,7,85,,,,,6/4/2025 6:34pm
+49SD-8,Special District 8,49,Cambridge,More than Eight Units,SD-8,3,"similar to IA-1, with exceptions",0,,,6,75,,,,,6/4/2025 6:34pm
+49SD-8A,Special District 8A,49,Cambridge,More than Eight Units,SD-8A,3,similar to RC-1A with exceptions,0,,,6,75,,,,,6/4/2025 6:34pm
+49SD-9,Special District 9,49,Cambridge,More than Eight Units,SD-9,1,similar to R-C with exceptions,0,,,4,45,,,,,6/4/2025 6:25pm
+49SD-10(F),Special District 10(F),49,Cambridge,More than Eight Units,SD-10(F),3,similar to R-C with exceptions,0,,,4,45,,,,,6/4/2025 6:27pm
+49SD-10(H),Special District 10 (H),49,Cambridge,More than Eight Units,SD-10(H),3,similar to R-C with exceptions,0,,,4,45,,,,,6/4/2025 6:27pm
+49SD-11,Special District 11,49,Cambridge,More than Eight Units,SD-11,3,similar to O2 with exceptions,0,,,6,85,,,,,6/4/2025 6:35pm
+49SD-12,Special District 12,49,Cambridge,More than Eight Units,SD-12,3,similar to RC-2B with exceptions,0,,,6,75,,,,,6/4/2025 6:29pm
+49SD-13,Special District 13,49,Cambridge,More than Eight Units,SD-13,3,similar to RC-2 with exceptions,0,,,7,85,,,,,6/4/2025 6:30pm
+49SD-14,Special District 14,49,Cambridge,More than Eight Units,SD-14,3,similar to RC-1 with exceptions,0,,,4,45,,,,,6/4/2025 6:31pm
+49SD-15,Special District 15,49,Cambridge,More than Eight Units,SD-15,3,"Similar to I-B, allowances for additional FAR and height",0,,,10,120,,,,,6/4/2025 6:32pm
+57B,Business District,57,Chelsea,No Residential Uses Allowed,B,2,"The purpose of the B district is to provide areas for professional, business and governmental offices and related and complimentary uses.",0,0%,,0,0,,,0,,6/18/2025 4:40pm
+57BH,Highway Business District,57,Chelsea,No Residential Uses Allowed,BH,2,The purpose of the BH district is to provide areas for retail businesses serving vehicles and for automotive sales and services.,,0%,,0,0,,,,,6/18/2025 4:40pm
+57BR,Retail Business District,57,Chelsea,More than Eight Units,BR,3,"The purpose of the BR district is to provide a downtown area with the range of business sales and services which generally constitute a central business district with the aim of promoting enhanced commercial identity, vibrancy, and pedestrian activity.",,,,8,80,,,,,6/18/2025 4:34pm
+57BR2,Retail Business 2 District,57,Chelsea,More than Eight Units,BR2,3,The purpose of the BR2 district is to encourage uses supportive of the adjacent residential areas and to allow for the development of residential buildings and residential units above ground floor retail.,10000,,350,3,36,,12,,,8/7/2025 9:47am
+57I,Industrial District,57,Chelsea,No Residential Uses Allowed,I,2,"The purpose of the I district is to provide for research, manufacturing, wholesaling, and related distribution activities in locations with suitable access and where such activities can occur without an adverse impact upon residential areas.",0,0%,,,0,,,0,,8/7/2025 9:50am
+57LI,Light Industrial / Office District,57,Chelsea,No Residential Uses Allowed,LI,2,"The purpose of the LI district is to provide for office, light industry, research and development, wholesale and related distribution activities in locations with suitable access and where such activities can occur without an adverse impact upon residential uses.",0,,,0,0,,,0,,6/18/2025 4:34pm
+57LI2,Light Industrial / Office 2 District,57,Chelsea,No Residential Uses Allowed,LI2,2,The purpose of the LI2 district is to provide an area for light industrial uses compatible with the adjacent residential district.,0,,,0,0,,0,0,,7/16/2025 3:22pm
+57NHC,Naval Hospital Development District-Commercial,57,Chelsea,No Residential Uses Allowed,NHC,2,"The purpose of the NHC district is to redevelop a portion of the former naval hospital site for office uses, recreational uses and related purposes.",0,0%,,0,0,,,0,,6/20/2025 1:42pm
+57NHR,Naval Hospital Development District-Residential,57,Chelsea,Four to Eight Units,NHR,1,The purpose of the NHR district is to redevelop a portion of the former naval hospital site for residential purposes.,20000,50%,3500,2.5,40,,,1,,8/7/2025 9:47am
+57P,Port District,57,Chelsea,No Residential Uses Allowed,P,2,"The purposes of the P district are to provide an area for water-dependent and maritime industrial uses, to enable the siting of supportive uses, and to encourage appropriate public access to the working waterfront.",,,,,0,,,0,,6/20/2025 1:41pm
+57R1,Residential R-1,57,Chelsea,Two Family,R1,1,The purpose of the R1 district is to provide an area for residential and associated uses.,7500,30%,3500,3,35,,,,,8/7/2025 9:46am
+57R2,Residential R-2,57,Chelsea,Three Family,R2,1,The purpose of the R2 district is to provide an area for multifamily dwellings and associated uses.,10500,40%,3500,4,40,,,1,,8/7/2025 9:46am
+57R3,Residential R-3,57,Chelsea,More than Eight Units,R3,1,"The purpose of the R3 district is to provide an area for higher density, multifamily dwellings.",5000,40%,950,3,36,,12,1,,8/7/2025 9:46am
+57SC,Shopping Center District,57,Chelsea,No Residential Uses Allowed,SC,2,The purpose of the SC district is to provide areas of retail sales and services developed with more than one establishment on one lot with shared common facilities and on-site parking.,,,,,0,,,0,,6/20/2025 1:41pm
+57W,Waterfront District,57,Chelsea,More than Eight Units,W,3,"The purpose of the W district is to provide an area for uses which are water related and/or which benefit from proximity to the airport or the harbor, and to encourage public access to the waterfront.",,,,,35,,35,1.5,,7/16/2025 3:22pm
+57WU,Waterfront Upland District,57,Chelsea,More than Eight Units,WU,3,The purpose of WU district is to promote economic development and to provide uses that are complementary to both a working waterfront and an adjacent residential neighborhood.,,,,,65,,35,2,,7/16/2025 3:22pm
+93AD,Apartment,93,Everett,More than Eight Units,AD,1,Multi-Family,7000,,,4,60,,,1,,8/6/2025 3:20pm
+93BD,Business,93,Everett,No Residential Uses Allowed,BD,2,Multi-Family,0,,,0,0,,,0,,8/6/2025 3:59pm
+93BL,Business Limited,93,Everett,More than Eight Units,BL,3,Multi-Family,,,,,50,,,4,,8/6/2025 3:31pm
+93DD,Dwelling,93,Everett,Two Family,DD,1,"Single-Family, 2-Family",7000,,,3,45,,,,,8/6/2025 3:36pm
+93EDD,Commercial Triangle Economic Development District,93,Everett,More than Eight Units,EDD,3,Multi-Family,,,,,85,,,3.5,,6/3/2025 11:14am
+93ID,Industrial,93,Everett,More than Eight Units,ID,3,Multi-Family,,,,6,100,,,4,,8/6/2025 3:29pm
+93IL,Industrial Limited,93,Everett,No Residential Uses Allowed,IL,2,limited industrial,,,,0,0,,,0,,8/6/2025 3:36pm
+93LB-C,Lower Broadway - Commercial,93,Everett,No Residential Uses Allowed,LB-C,2, ,0,,,0,0,,,0,,8/6/2025 3:55pm
+93LB-E,Lower Broadway - Employment,93,Everett,No Residential Uses Allowed,LB-E,2, ,0,,,0,0,,,0,,8/6/2025 3:55pm
+93LB-M,Lower Broadway - Mixed Use,93,Everett,No Residential Uses Allowed,LB-M,3, ,0,,,0,0,,,0,,8/6/2025 3:55pm
+93LB-R,Lower Broadway - Residential Multifamily,93,Everett,Three Family,LB-R,1, ,10000,,,2,35,,,1,,8/6/2025 3:55pm
+93LB-W,Lower Broadway - Waterfront,93,Everett,No Residential Uses Allowed,LB-W,3,Multi-Family,0,,,0,0,,,0,,8/6/2025 3:55pm
+93LBRD,Lower Broadway - Residential Detached,93,Everett,Three Family,LBRD,1,"Single, 2 and 3 Family",7500,,2500,2,35,,,1,,8/6/2025 3:55pm
+93ROD,River Front Overlay District,93,Everett,More than Eight Units,ROD,,Multi-Family,,85%,,5,65,,70,2.25,,9/16/2025 3:08pm
+163B1,Neighborhood business ,163,Lynn,Three Family,B1,3,,3000,70%,500,,35,,,1.5,,8/6/2025 4:25pm
+163B2,Urban business ,163,Lynn,More than Eight Units,B2,3,,,85%,500,,45,,,3,,8/6/2025 4:26pm
+163CB,Central business,163,Lynn,More than Eight Units,CB,3,,,100%,150,,120,,,10,,8/6/2025 4:26pm
+163CIV,Civic,163,Lynn,No Residential Uses Allowed,CIV,2,,,,,,,,,,,8/6/2025 4:14pm
+163HI,Heavy Industrial District,163,Lynn,No Residential Uses Allowed,HI,2,Heavy manufacturing,,0%,,,0,,,0,,8/6/2025 4:26pm
+163LI,Light Industrial District,163,Lynn,No Residential Uses Allowed,LI,2,Light manufacturing,,0%,,,0,,,0,,8/6/2025 4:26pm
+163M1,Mixed use midrise,163,Lynn,More than Eight Units,M1,3,,4000,80%,500,,55,,,2.8,,8/6/2025 4:25pm
+163M2,Mixed use highrise ,163,Lynn,More than Eight Units,M2,3,,,100%,350,,100,,,5,,8/6/2025 4:25pm
+163MV,Medical village,163,Lynn,More than Eight Units,MV,4,Only senior living multi-family allowed by-right,15000,75%,1500,,70,,28,1.25,,8/6/2025 4:30pm
+163R1,Single family residential ,163,Lynn,Single Family,R1,1, ,6000,65%,,,35,,,1,,8/6/2025 4:25pm
+163R2,Two family residential ,163,Lynn,Two Family,R2,1,Two Family,3750,65%,2375,,35,,,1,,8/6/2025 4:25pm
+163R3,Medium density residential ,163,Lynn,Three Family,R3,1,Apartments,4000,80%,1500,,40,,,2.5,,8/6/2025 4:25pm
+163R4,High density residential ,163,Lynn,More than Eight Units,R4,1,Apartments,6000,80%,350,,75,,,4,,8/6/2025 4:26pm
+163RD,Research and development,163,Lynn,No Residential Uses Allowed,RD,4,,,0%,,,0,,,0,,8/6/2025 4:24pm
+163RTOD,Riverworks TOD,163,Lynn,More than Eight Units,RTOD,3,TOD ,40000,70%,350,,240,,,2.8,,8/6/2025 4:24pm
+165C-B,Central Business,165,Malden,No Residential Uses Allowed,C-B,2,Business District,,,,,,,,,,8/6/2025 4:40pm
+165H-B,Highway Business,165,Malden,No Residential Uses Allowed,H-B,3,Business District,,,,,,,,,,8/6/2025 4:40pm
+165I,Industrial,165,Malden,No Residential Uses Allowed,I,2,Commercial - Offices,,,,,,,,,,6/10/2025 5:04pm
+165N-B,Neighborhood Business,165,Malden,Two Family,N-B,2,Two-Family Residential,6250,30%,4000,2.5,30,,,,,6/10/2025 4:52pm
+165R-A,Residence A Districts,165,Malden,Single Family,R-A,1,Single Family Residential,7500,30%,,2.5,30,,,,,6/10/2025 4:51pm
+165R-B,Residence B Districts,165,Malden,Two Family,R-B,1,Two-Family Residential,6250,30%,4000,2.5,30,,,,,6/10/2025 4:53pm
+165R-C,Residence C Districts,165,Malden,Two Family,R-C,1,Two-Family Residential,6250,30%,4000,2.5,30,,,,,6/10/2025 4:54pm
+165R-O,Residential Office,165,Malden,Two Family,R-O,2,Two-Family Residential,6250,30%,4000,2.5,30,,,,,6/10/2025 4:53pm
+165RQ1,Rowe's Quarry Reclamation and Redevelopment District (RQRRD),165,Malden,No Residential Uses Allowed,RQ1,3,Mixed Use,,,,,,,,,,6/10/2025 5:03pm
+165RQ2,Rowe's Quarry Reclamation and Redevelopment District (RQRRD),165,Malden,No Residential Uses Allowed,RQ2,3,Mixed Use,,,,,,,,,,6/10/2025 5:03pm
+165RQ3,Rowe's Quarry Reclamation and Redevelopment District (RQRRD),165,Malden,No Residential Uses Allowed,RQ3,3,Mixed Use,,,,,,,,,,6/10/2025 5:03pm
+176APT1,Apartment 1,176,Medford,More than Eight Units,APT1,1,Multiple Family - 3 stories or less,10000,30%,,3,35,,,,,8/7/2025 9:45am
+176APT2,Apartment 2,176,Medford,More than Eight Units,APT2,1,Multiple Family - 6 stories or less,10000,30%,,6,75,,,,,6/11/2025 11:43am
+176APT3,Apartment 3,176,Medford,More than Eight Units,APT3,1,Multiple Family - 6 stories or less,10000,30%,,6,75,,,,,8/8/2025 9:48am
+176C1,Commercial 1,176,Medford,More than Eight Units,C1,3,Commercial,10000,30%,,6,75,,,,,12/2/2020 5:04pm
+176C2,Commercial 2,176,Medford,No Residential Uses Allowed,C2,2,Commercial,,,,0,0,,,,,8/8/2025 9:47am
+176GR,General Residence,176,Medford,Two Family,GR,1,Two-Family,6000,35%,,2.5,35,,,,,8/7/2025 9:53am
+176I,Industrial,176,Medford,No Residential Uses Allowed,I,2,Industrial,,,,,,,,,,6/11/2025 11:48am
+176MACD-C,,176,Medford,No Residential Uses Allowed,MACD-C,0,,,,,,,,,,,3/11/2026 12:41pm
+176MACD-MX1,,176,Medford,No Residential Uses Allowed,MACD-MX1,0,,,,,,,,,,,3/11/2026 12:41pm
+176MACD-MX2,,176,Medford,No Residential Uses Allowed,MACD-MX2,0,,,,,,,,,,,3/11/2026 12:41pm
+176MACD-MX3,,176,Medford,No Residential Uses Allowed,MACD-MX3,0,,,,,,,,,,,3/11/2026 12:41pm
+176MUZ,Mixed Use,176,Medford,More than Eight Units,MUZ,3,Mixed Use,20000,45%,,7,100,,,2.25,,8/13/2025 5:34pm
+176O,Office,176,Medford,No Residential Uses Allowed,O,2,Offices on larger lots,,,,,,,,,,8/8/2025 9:49am
+176O2,Office 2,176,Medford,No Residential Uses Allowed,O2,2,Office / R&D,,,,,,,,,,8/8/2025 9:49am
+176ROS,Recreational Open Space,176,Medford,No Residential Uses Allowed,ROS,2,Public Open Recreational Use,,,,,,,,,,8/8/2025 9:49am
+176SF1,Single Family 1,176,Medford,Single Family,SF1,1,Single Family,7000,40%,,2.5,35,,,,,8/7/2025 9:53am
+176SF2,Single Family 2,176,Medford,Single Family,SF2,1,Single Family,5000,40%,,2.5,35,,,,,8/7/2025 9:53am
+178BA,Business-A,178,Melrose,More than Eight Units,BA,3,Business district.,5000,,,4,50,,,2,,5/30/2025 4:41pm
+178BA-1,Business-A1,178,Melrose,More than Eight Units,BA-1,3,Business and mixed-use development district.,5000,,,4,50,,,2,,5/30/2025 4:41pm
+178BA-2,Business-A2,178,Melrose,More than Eight Units,BA-2,3,Business and mixed-use development district near transit stations.,5000,,,4,50,,,2,,5/30/2025 4:41pm
+178BB,Business-B,178,Melrose,No Residential Uses Allowed,BB,2,Business district including auto-oriented uses.,0,0%,,0,0,,,0,,6/17/2025 2:36pm
+178BB-1,Business-B1,178,Melrose,No Residential Uses Allowed,BB-1,2,Business district including auto-oriented uses.,0,0%,,0,0,,,0,,6/17/2025 2:36pm
+178BC,Business-C,178,Melrose,Four to Eight Units,BC,3,Business district that serves local needs.,6000,,,2,30,,,0.75,,8/8/2025 10:23am
+178BD,Business-D,178,Melrose,Four to Eight Units,BD,3,"Business and multifamily housing district including hospital, medical and other offices.",7250,50%,,4,50,,,1,,8/11/2025 5:36pm
+178I,Industrial,178,Melrose,No Residential Uses Allowed,I,2,Light industrial and business district.,0,0%,,0,0,,,0,,6/17/2025 2:36pm
+178I-A,Industrial-A,178,Melrose,No Residential Uses Allowed,I-A,2,Limited Industrial,0,0%,,0,0,,,0,,6/17/2025 2:36pm
+178SR,Suburban Residence,178,Melrose,Single Family,SR,1,Lowest suburban-density residential and agricultural use district.,25000,35%,,2.5,35,,,,,5/30/2025 4:41pm
+178SR-A,Suburban Residence-A,178,Melrose,Single Family,SR-A,1,Low suburban-density residential and agricultural use district.,15000,35%,,2.5,35,,,,,5/30/2025 4:41pm
+178SR-B,Suburban Residence-B,178,Melrose,Single Family,SR-B,1,Suburban-density residential and agricultural use district.,10000,35%,,2.5,35,,,,,5/30/2025 4:41pm
+178UR-A,Urban Residence-A,178,Melrose,Single Family,UR-A,1,Lowest urban-density residential district.,7500,35%,7500,2.5,35,,,,,8/8/2025 10:28am
+178UR-B,Urban Residence-B,178,Melrose,Two Family,UR-B,1,Low urban-density residential including multifamily housing district.,10500,50%,,2.5,35,,,,,8/11/2025 5:17pm
+178UR-C,Urban Residence-C,178,Melrose,Four to Eight Units,UR-C,1,Urban-density residential including multifamily housing and neighborhood,7250,50%,,4,50,,,1,,5/30/2025 4:41pm
+,,,,,,,serving business district.,,,,,,,,,,
+178UR-D,Urban Residence-D,178,Melrose,Four to Eight Units,UR-D,1,Urban-density residential including multifamily housing and neighborhood,7250,50%,,4,50,,,1,,5/30/2025 4:41pm
+,,,,,,,serving business district.,,,,,,,,,,
+207BU1,Business 1,207,Newton,More than Eight Units,BU1,2,"Office, bank. Retail, theater, restaurant with <50 seats",10000,,1200,2,36,0,,1,,4/30/2025 12:40pm
+207BU2,Business 2,207,Newton,More than Eight Units,BU2,2,"Uses alloed in B 1, wholesale. Bowling alley, motor vehicle sales and servi",10000,,1200,2,48,0,,1,,4/30/2025 12:40pm
+207BU4,Business 4,207,Newton,More than Eight Units,BU4,2,Uses allowed in B 1,40000,50%,1200,3,96,0,,1.5,,4/30/2025 12:46pm
+207BU5,Business 5,207,Newton,More than Eight Units,BU5,2,"Office, bank",20000,25%,1200,3,48,0,,1,,4/30/2025 12:44pm
+207LMD,Limited manufacturing,207,Newton,No Residential Uses Allowed,LMD,2,Light manufacturing,0,0%,0,0,0,0,,,,7/30/2025 11:29am
+207MAN,Manufacturing,207,Newton,No Residential Uses Allowed,MAN,2,Manufacturing,0,,,0,0,0,,0,,7/30/2025 11:29am
+207MR1,Multi-Residence 1,207,Newton,Two Family,MR1,1,Two family residence,10000,30%,5000,2.5,30,2,,0.58,,4/30/2025 12:01pm
+207MR2,Multi-Residence 2,207,Newton,Two Family,MR2,1,Multi Family,10000,30%,5000,2.5,30,4,,0.58,,4/30/2025 12:01pm
+207MR3,Multi-Residence 3,207,Newton,Two Family,MR3,1,Multi Family,10000,30%,5000,2.5,30,4,,0.58,,4/30/2025 12:01pm
+207MR4,Multi-Residence 4,207,Newton,Two Family,MR4,1,Multi Family,10000,30%,5000,2.5,30,4,,,,4/30/2025 11:59am
+207MU1,Mixed Use 1,207,Newton,More than Eight Units,MU1,1,Mixed Uses,40000,,10000,3,36,1,,1.5,,12/8/2020 4:11pm
+207MU2,Mixed Use 2,207,Newton,More than Eight Units,MU2,1,Mixed Uses,10000,,10000,2,36,1,,1,,12/8/2020 4:11pm
+207MU3,Mixed Use 3/Transit-Oriented Development,207,Newton,More than Eight Units,MU3,3,,392040,,800,3,36,,,1,,4/30/2025 12:47pm
+207MU4,Mixed Use 4 District,207,Newton,More than Eight Units,MU4,3,,10000,,1000,3,,,,1,,4/30/2025 12:59pm
+207ORD,Open Space/Recreation,207,Newton,No Residential Uses Allowed,ORD,4,"Recreation, Municipal Use",,,,,,0,,,,12/11/2020 10:49am
+207PUB,Public Use,207,Newton,No Residential Uses Allowed,PUB,4,"Recreation, Municipal Use",,,,,,0,,,,4/17/2025 12:37pm
+207SR1,Single Residence 1,207,Newton,Single Family,SR1,1,One family dwelling,25000,15%,25000,2.5,30,1,,0.46,,4/30/2025 11:57am
+207SR2,Single Residence 2,207,Newton,Single Family,SR2,1,One family dwelling,15000,20%,15000,2.5,30,2,,0.46,,4/30/2025 11:57am
+207SR3,Single Residence 3,207,Newton,Single Family,SR3,1,One family dwelling,10000,30%,10000,2.5,30,4,,0.48,,4/30/2025 11:57am
+243BUSA,Business A,243,Quincy,Two Family,BUSA,3,Local business,5000,,,3,,,,0.75,,8/8/2025 1:26pm
+243BUSB,Business B,243,Quincy,Two Family,BUSB,3,General business,5000,,,4,,,,1.5,,8/8/2025 1:26pm
+243BUSC,Business C,243,Quincy,More than Eight Units,BUSC,3,Central business,5000,,,6,,,,3.5,,5/2/2025 10:14am
+243INDA,Industrial A,243,Quincy,No Residential Uses Allowed,INDA,2,Light industry,,,,0,,,,0,,8/8/2025 1:26pm
+243INDB,Industrial B,243,Quincy,No Residential Uses Allowed,INDB,2,Heavy industry,,,,0,,,,0,,8/8/2025 1:26pm
+243OS,Open Space,243,Quincy,No Residential Uses Allowed,OS,4,"Public parks and playgrounds, conservation",,,,,,,,,,8/8/2025 1:26pm
+243PUD,Planned Unit Development,243,Quincy,Single Family,PUD,3,mixed uses,7650,,7650,2.5,,,,4,,8/8/2025 1:25pm
+243PUD1,Planned Unit Development 1,243,Quincy,Single Family,PUD1,3,mixed uses,7650,,7650,2.5,,,,4,,8/8/2025 1:25pm
+243QCZD10,Quincy Center District 10,243,Quincy,More than Eight Units,QCZD10,3,mixed uses,15000,,325,10,,,,,,8/8/2025 1:23pm
+243QCZD15,Quincy Center District 15,243,Quincy,More than Eight Units,QCZD15,3,Mixed uses,15000,,325,15,,,,,,8/8/2025 1:23pm
+243RESA,Residence A,243,Quincy,Single Family,RESA,1,Single-family,7650,,7650,2.5,,,,,,8/8/2025 1:26pm
+243RESB,Residence B,243,Quincy,More than Eight Units,RESB,1,"Multifamily, low density ",6750,,4500,3,,,,0.5,,8/8/2025 1:19pm
+243RESC,Residence C,243,Quincy,More than Eight Units,RESC,1,"Multifamily, medium density",14000,,2000,6,,,,1,,5/2/2025 10:08am
+248CB,Central Business,248,Revere,No Residential Uses Allowed,CB,3,Community commercial,0,,,0,0,,,0,,7/30/2025 11:31am
+248CD,Conservation and open space,248,Revere,No Residential Uses Allowed,CD,4,,,,,,,,,,,8/8/2025 12:41pm
+248GB,General business and professional offices,248,Revere,More than Eight Units,GB,3,General business and professional offices,10000,,,5,50,,,1.5,,6/6/2025 12:22pm
+248GB1,General business and professional offices,248,Revere,No Residential Uses Allowed,GB1,2,General business and professional offices,0,,,0,0,,,0,,8/8/2025 12:50pm
+248HB,Highway Business,248,Revere,No Residential Uses Allowed,HB,3,Highway commercial and regional businesses,0,,,0,0,,,0,,7/30/2025 11:32am
+248IP,Industrial Park,248,Revere,No Residential Uses Allowed,IP,2,master-planned industrial development,0,0%,,0,0,,,0,,8/8/2025 12:50pm
+248LI,Limited Industrial,248,Revere,No Residential Uses Allowed,LI,3,Single and Two-family dwelling,0,0%,,0,0,,,0,,7/30/2025 11:32am
+248NB,Neighborhood Business,248,Revere,More than Eight Units,NB,3,Neighborhood convenience businesses,10000,40%,,2.5,35,,,,,6/19/2025 11:04am
+248PDD1,Planned Development District 1,248,Revere,No Residential Uses Allowed,PDD1,2,"Office, bank, restaurant,retail sales and service, neighborhood retail, the",0,0%,,0,0,,,0,,8/8/2025 12:50pm
+248PDD2,Planned Development District 2,248,Revere,No Residential Uses Allowed,PDD2,2,"Office, bank, restaurant,retail sales and service, theater, racetrack",0,0%,,0,0,,,0,,8/8/2025 12:50pm
+248RA,Residence A,248,Revere,Single Family,RA,1,Single family dwelling,6000,30%,,2.5,30,,,,,8/8/2025 12:50pm
+248RA1,Residence A1,248,Revere,Single Family,RA1,1,Single family dwelling,8000,30%,,2.5,35,,,,,8/8/2025 12:50pm
+248RB,Residence B,248,Revere,Two Family,RB,1,Single and two family dwellings,8000,30%,,2.5,35,,,,,8/8/2025 12:50pm
+248RB1,Residence B-1,248,Revere,Two Family,RB1,1,Single and two family dwellings,8000,30%,,2.5,35,,,,,8/8/2025 12:50pm
+248RC,Residence C,248,Revere,More than Eight Units,RC,3,Apartment Dwellings,10000,40%,,5,50,,,1,,6/19/2025 10:57am
+248RC1,Residence C-1,248,Revere,More than Eight Units,RC1,3,Apartment Dwellings,25000,85%,,13,120,,,3,,6/19/2025 10:57am
+248RC2,Residence C-2,248,Revere,More than Eight Units,RC2,1,Apartment Dwellings,25000,,,14,140,,,3,,6/19/2025 10:59am
+248RC3,Residence C-3,248,Revere,Four to Eight Units,RC3,3,Apartment Dwellings,10000,30%,,3,35,,,,,8/8/2025 12:50pm
+248TED,Technology Enterprise District,248,Revere,No Residential Uses Allowed,TED,2,"Research and development, biotechnology, office park and hospitality",0,0%,,0,0,,,0,,8/8/2025 12:50pm
+274ASMD,Assembly Square Mixed Use District,274,Somerville,More than Eight Units,ASMD,3,"a variety of mid- and high-rise, transit oriented, mixed-use buildings",5000,,300,,250,,,10,,8/13/2025 5:25pm
+274CB,Commercial Business,274,Somerville,No Residential Uses Allowed,CB,2,"entirely commercial, with concentrations of commercial services, food & beverage services, and retailers",,,,,,,,,,6/20/2025 1:46pm
+274CC,Commercial Core,274,Somerville,No Residential Uses Allowed,CC,2,"entirely commercial, with a wide diversity of uses",,100%,,,,,,,,9/16/2025 5:01pm
+274CC3,Commercial Core 3,274,Somerville,No Residential Uses Allowed,CC3,2,"entirely commercial, with a wide diversity of uses",,100%,,,,,,,,9/16/2025 5:01pm
+274CC4,Commercial Core 4,274,Somerville,No Residential Uses Allowed,CC4,2,"entirely commercial, with a wide diversity of uses",,100%,,,,,,,,9/16/2025 5:01pm
+274CC5,Commercial Core 5,274,Somerville,No Residential Uses Allowed,CC5,2,"entirely commercial, with a wide diversity of uses",,100%,,,,,,,,9/16/2025 5:01pm
+274CI,Commercial Industrial,274,Somerville,No Residential Uses Allowed,CI,2,"entirely commercial, with uses that are typically auto-oriented, commercial service, industrial, or office",,,,,,,,,,6/20/2025 1:46pm
+274CIV,Civic,274,Somerville,No Residential Uses Allowed,CIV,4,"special district: characterized by public spaces, such as parks, commons, and plazas, and buildings dedicated to arts, culture, education, recreation, and local government that serve as necessary components of any community.",,,,,,,,,,6/20/2025 2:31pm
+274FAB,Fabrication,274,Somerville,No Residential Uses Allowed,FAB,2,The district is entirely commercial with buildings typically designed or retrofitted to support multiple tenants,,,,,,,,,,6/20/2025 1:46pm
+274HR,High Rise,274,Somerville,No Residential Uses Allowed,HR,3,"multi-unit, mixed-use, and commercial",,0%,,0,0,,,,,4/30/2026 1:44pm
+274MR3,Mid-Rise 3 story,274,Somerville,No Residential Uses Allowed,MR3,3,up to three (3) stories in height,,,,0,0,,,,,4/30/2026 1:41pm
+274MR4,Mid-Rise 4 story,274,Somerville,No Residential Uses Allowed,MR4,3,up to four (4) stories in height,,0%,,0,0,,,,,4/30/2026 1:41pm
+274MR5,Mid-Rise 5 story,274,Somerville,No Residential Uses Allowed,MR5,3,up to five (5) stories in height,,0%,,0,0,,,,,4/30/2026 1:41pm
+274MR6,Mid-Rise 6 story,274,Somerville,No Residential Uses Allowed,MR6,3,up to six (6) stories in height,,0%,,0,0,,,,,4/30/2026 1:41pm
+274NR,Neighborhood Residential,274,Somerville,Three Family,NR,1,"one-, two-, and three-unit principal buildings",,60%,,3,,3,,,,4/30/2026 1:41pm
+274PS,Powderhouse School,274,Somerville,No Residential Uses Allowed,PS,3,special district: characterized by the adaptation and re-use of a former school into a mixed-use courtyard building.,,0%,,0,0,,,,,6/20/2025 3:13pm
+274TU,Tufts University,274,Somerville,No Residential Uses Allowed,TU,4,special district: a large private research university set in a campus like setting,,,,,,,,,,6/20/2025 1:46pm
+274UR,Urban Residential,274,Somerville,More than Eight Units,UR,3,multi-unit buildings where outdoor amenity space is typically shared between the residents of a building.,,65%,,4,82,,,,,4/30/2026 1:42pm
+314CR,Cluster Residential,314,Watertown,Three Family,CR,1, ,40000,15%,,2.5,35,,,,,8/6/2025 3:00pm
+314I-1,Industrial-1,314,Watertown,No Residential Uses Allowed,I-1,2, ,,0%,,0,0,,,0,,8/6/2025 4:58pm
+314I-2,Industrial-2,314,Watertown,No Residential Uses Allowed,I-2,2, ,,0%,,0,0,,,0,,8/6/2025 4:58pm
+314I-3,Industrial-3,314,Watertown,No Residential Uses Allowed,I-3,2, ,,0%,,0,0,,,0,,8/6/2025 4:58pm
+314LB,Limited Business,314,Watertown,No Residential Uses Allowed,LB,2, ,,0%,,0,0,,,0,,8/6/2025 4:58pm
+314NB,Neighborhood Business,314,Watertown,No Residential Uses Allowed,NB,2, ,,0%,,0,0,,,0,,8/6/2025 4:58pm
+314NMU,Neighborhood Mixed Use,314,Watertown,Two Family,NMU,3,,,,,2,44,,,,,7/31/2025 4:15pm
+314OSC,Open Space and Conservancy,314,Watertown,No Residential Uses Allowed,OSC,3, ,,0%,,0,0,,,0,,8/6/2025 4:58pm
+314PSCD-1,Pleasant St Corridor District 1,314,Watertown,Three Family,PSCD-1,3,Residential Mixed Use,10000,50%,1000,,33,,,2,,9/16/2025 4:53pm
+314PSCD-2,Pleasant St Corridor District 2,314,Watertown,Three Family,PSCD-2,3,Residential Mixed Use,10000,50%,1000,,33,,,2,,9/16/2025 4:58pm
+314PSCD-3,Pleasant St Corridor District 3,314,Watertown,No Residential Uses Allowed,PSCD-3,3,Commercial Mixed Use,10000,50%,1000,,33,,,2,,9/16/2025 4:58pm
+314R.75,Residential .75,314,Watertown,Two Family,R.75,1, ,5000,35%,,,35,,,0.75,,8/6/2025 3:00pm
+314R1.2,Residential 1.2,314,Watertown,Two Family,R1.2,1, ,5000,50%,,,45,,,1.2,,8/6/2025 3:00pm
+314RMUD,Regional Mixed Use District,314,Watertown,No Residential Uses Allowed,RMUD,3,,0,0%,,0,0,,,0,,7/31/2025 4:24pm
+314S-6,Single Family 6,314,Watertown,Single Family,S-6,1, ,6000,25%,,2.5,35,,,,,8/6/2025 4:58pm
+314S-10,Single Family 10,314,Watertown,Single Family,S-10,1, ,10000,20%,,2.5,35,,,,,8/6/2025 4:58pm
+314SC,Single Family Conversion,314,Watertown,Single Family,SC,1, ,6500,30%,,2.5,35,,,,,8/6/2025 4:58pm
+314T,Two Family,314,Watertown,Two Family,T,1, ,5000,30%,,2.5,35,,,0.5,,8/6/2025 4:58pm
+314WSQ1,Watertown Square 1,314,Watertown,No Residential Uses Allowed,WSQ1,3,,,,,0,0,,,,,7/30/2025 11:42am
+314WSQ2,Watertown Square 2,314,Watertown,No Residential Uses Allowed,WSQ2,3,,,,,0,0,,,,,7/30/2025 11:43am
+314WSQ3,Watertown Square 3,314,Watertown,No Residential Uses Allowed,WSQ3,3,,,,,0,0,,,,,7/30/2025 11:44am
+346BA,Business A,346,Winthrop,Two Family,BA,3,Detached single family dwelling,,,,,,,,,,6/20/2025 3:46pm
+346C,Conservation District,346,Winthrop,No Residential Uses Allowed,C,4,Conservation,,,,,,,,,,6/20/2025 3:46pm
+346CB,Center Business,346,Winthrop,No Residential Uses Allowed,CB,2,"Business,  offices, retail",,,,,,,,,,6/20/2025 3:46pm
+346LM,Light Manufacturing,346,Winthrop,No Residential Uses Allowed,LM,2,"Business, professional and medical offices",,,,,,,,,,6/20/2025 3:46pm
+346RA,Residential A,346,Winthrop,Two Family,RA,1,Detached single family dwelling,10000,,,2.5,35,,,,,6/20/2025 3:47pm
+346RB,Residential B,346,Winthrop,Two Family,RB,1,Detached single family dwelling,10000,,,2.5,35,,,,,6/20/2025 3:49pm
+346RC,Residential C,346,Winthrop,Two Family,RC,1,Detached single family dwelling,10000,,,2.5,35,,35,,,6/20/2025 3:50pm
+346WF,Waterfront,346,Winthrop,Two Family,WF,3,"Not Zoned, or unknown zoning",10000,,,2.5,35,,,,,6/20/2025 3:50pm

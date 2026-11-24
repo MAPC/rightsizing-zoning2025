@@ -15,12 +15,13 @@ def get_zoning_data(muni, type = 'base'):
 
     '''
     from src.data.make_dataset import zoning_layer, zoning_overlay_layer    
-    zoning_project_dir = r'C:\Users\ziacovino\OneDrive - Metropolitan Area Planning Council\Metro Mayors Housing Task Force\Phase 2 Scope of Work\Rightsizing Zoning Project\Data'
-    
+    #zoning_project_dir = r'C:\Users\ziacovino\OneDrive - Metropolitan Area Planning Council\Metro Mayors Housing Task Force\Phase 2 Scope of Work\Rightsizing Zoning Project\Data'
+    zoning_project_dir = r'C:\Users\ZIacovino\Desktop\rightsizing-zoning2025\src\data'
 
     # regulation table (exported 4/10)
     if type == 'base':
-        reg_table_fp = os.path.join(zoning_project_dir, "zoning-atlas-mmc.csv")
+        #reg_table_fp = os.path.join(zoning_project_dir, "zoning-atlas-mmc.csv")
+        reg_table_fp = os.path.join(zoning_project_dir, "zoning_atlas_mmc.csv")
         # shapefile needs some data updating work
         zoning = zoning_layer[zoning_layer['muni'] == muni]
         zoning = zoning.to_crs(mass_mainland_crs)
